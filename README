@@ -1,6 +1,0 @@
-Displays data about semiweb applications that use the_collector gem
-
-Authorization key setup:
-
-  1. Create an environment variable ARMA_AUTHORIZATION_KEY on both Arma and other applications servers, the two variables need to match. Then go to step 2.
-  2. Go to step 1.
