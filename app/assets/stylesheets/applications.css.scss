@@ -1,0 +1,72 @@
+#applications {
+  height: 100%;
+  background: #7F8C8D;
+  .loader {
+    display: none;
+  }
+  a {
+    text-decoration: none;
+    display: block;
+    &.app-link {
+      margin-top: 20px;
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+  }
+  .application {
+    padding: 20px 0 20px 15px;
+    background: #2C3E50;
+    color: #fff;
+    p {
+      font-size: 18px;
+      font-weight: lighter;
+    }
+  }
+  .installations {
+    display: none;
+    background: #95A5A6;
+    padding: 20px 0 20px 75px;
+    p {
+      color: #34495E;
+      padding-top: 10px;
+    }
+    a p:hover {
+      color: #2980B9;
+    }
+  }
+  .states {
+    display: none;
+    background: #BDC3C7;
+    padding: 20px 0 20px 135px;
+    -webkit-border-top-left-radius: 8px;
+    -webkit-border-bottom-left-radius: 8px;
+    -moz-border-radius-topleft: 8px;
+    -moz-border-radius-bottomleft: 8px;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    a {
+      display: inline;
+    }
+    p {
+      color: #fff;
+      padding-top: 0;
+    }
+  }
+  span.warn {
+    color: #E74C3C;
+    font-size: 1.2em;
+  }
+  span.branch {
+    color: #34495E;
+  }
+  .expanded {
+    display: none;
+  }
+  a.expand {
+    color: #2980B9;
+  }
+  .expanded {
+    margin-top: 10px;
+  }
+}

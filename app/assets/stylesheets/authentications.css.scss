@@ -1,0 +1,19 @@
+#authentication {
+  height: 100%;
+  background: #2C3E50;
+  .tile {
+    width: 300px;
+    position: absolute;
+    left: calc(50% - 150px);
+    top: 25%;
+  }
+  .login-screen {
+    background-color: #2C3E50!important;
+  }
+  form {
+    margin: 0;
+  }
+  .control-group {
+    margin: 20px 0;
+  }
+}

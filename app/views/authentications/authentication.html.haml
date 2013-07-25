@@ -1,0 +1,5 @@
+#authentication
+  .tile
+    = form_tag authenticate_path do
+      .control-group
+        = password_field_tag :password, nil, class: "login-field", placeholder: "Password"

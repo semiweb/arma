@@ -1,0 +1,4 @@
+rvm use 2.0.0-p247@arma --create
+
+echo "Do not forget to install libnotify (probably libnotify-bin) on ubuntu and run guard at the root for autotesting"
+echo "Please: write tests for new server-side features or modifications"

@@ -1,0 +1,9 @@
+- installations.each do |installation|
+  = link_to application_installation_states_path(installation.application_id, installation), remote: true, 'data-no-turbolink' => '', id: "installation-#{installation.id}", class: 'install-link' do
+    %div{ class: 'installation' }
+      %p
+        = installation.name
+        = ": #{installation.location}" if installation.location
+        = "(#{installation.env})" if installation.env
+        = image_tag 'loader.gif', class: 'loader'
+  .states

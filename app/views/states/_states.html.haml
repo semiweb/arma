@@ -1,0 +1,16 @@
+- state = states.shift
+%p
+  = render 'state', state: state
+  - behind_by = state.behind_by.to_i
+  = " -- behind origin/master by #{behind_by}" if behind_by > 0
+
+- unless states.empty?
+  %a.expand{ href: '#', 'data-no-turbolink' => '' }= 'Expand'
+
+  .expanded
+    - states.each do |state|
+      %p= render 'state', state: state
+
+
+
+

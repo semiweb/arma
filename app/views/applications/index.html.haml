@@ -1,0 +1,6 @@
+#applications
+  - @applications.each do |application|
+    = link_to application_installations_path(application), remote: true, 'data-no-turbolink' => '', id: "application-#{application.id}", class: 'app-link' do
+      %div{ class: 'application' }
+        %p= application.name
+    .installations

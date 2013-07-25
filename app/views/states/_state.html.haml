@@ -1,0 +1,7 @@
+= "#{state.created_at.strftime("%B %d, %Y")} | "
+%span.branch= "#{state.branch}:"
+- if state.diff.present?
+  = link_to "#{state.ref}", diff_application_installation_state_path(state.installation.application_id, state.installation_id, state.id), target: '_blank'
+- else
+  = "#{state.ref}"
+%span.warn= '*' if state.local_changes
