@@ -11,10 +11,15 @@ Define the following environment variables:
 
 ```
 ARMA_AUTHORIZATION_KEY -> the authorization key sent with the_collector's requests
-ARMA_PASSWORD          -> the password that is used to sign into ARMA (and then a permanent cookie is created)
 ARMA_GITHUB_USERNAME   -> your Github username
 ARMA_GITHUB_PASSWORD   -> your Github password
 ARMA_SECRET_KEY        -> the secret key used by rails in the initializers
+```
+
+Create a first user to be able to sign in: signing up has been deactivated for now.
+
+```ruby
+User.create!(username: 'jonSnow', password: 'password', password_confirmation: 'password')
 ```
 
 ## Usage
