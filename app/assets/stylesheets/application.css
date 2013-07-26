@@ -14,6 +14,27 @@
  *= require_tree .
  */
 
+ * {
+  margin: 0;
+  padding: 0;
+ }
+
 html, body {
   height: 100%;
+}
+
+body.applications {
+  background: #7F8C8D;
+}
+
+body.sessions {
+  background: #2C3E50;
+}
+
+#wrapper {
+  padding-top: 40px;
+}
+
+input[type="radio"], input[type="checkbox"] {
+  margin: 0!important;
 }

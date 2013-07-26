@@ -1,6 +1,4 @@
-#authentication {
-  height: 100%;
-  background: #2C3E50;
+#devise {
   .tile {
     width: 300px;
     position: absolute;
@@ -15,5 +13,11 @@
   }
   .control-group {
     margin: 20px 0;
+  }
+  input[type="checkbox"] {
+    display: inline;
+  }
+  input[type="checkbox"] + label {
+    display: inline;
   }
 }

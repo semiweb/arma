@@ -1,0 +1,10 @@
+- if current_user
+  - content_for :main do
+    #wrapper
+      = yield
+  .navbar.navbar-inverse.navbar-fixed-top
+    .navbar-inner
+      = link_to 'Sign out', destroy_user_session_path, method: :delete, class: 'btn btn-large btn-info right'
+- else
+  - content_for :main do
+    = yield
