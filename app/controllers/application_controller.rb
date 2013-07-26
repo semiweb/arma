@@ -3,10 +3,5 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  before_action :authenticate
-
-  private
-    def authenticate
-      redirect_to authentication_path unless cookies[:authenticated]
-    end
+  before_action :authenticate_user!
 end

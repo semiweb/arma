@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130725151633) do
+ActiveRecord::Schema.define(version: 20130726144256) do
 
   create_table "applications", force: true do |t|
     t.string   "name"
@@ -43,5 +43,20 @@ ActiveRecord::Schema.define(version: 20130725151633) do
   end
 
   add_index "states", ["installation_id"], name: "index_states_on_installation_id"
+
+  create_table "users", force: true do |t|
+    t.string   "username",            default: "", null: false
+    t.string   "encrypted_password",  default: "", null: false
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",       default: 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "users", ["username"], name: "index_users_on_username", unique: true
 
 end

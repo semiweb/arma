@@ -1,5 +1,5 @@
 class ApiController < ApplicationController
-  skip_before_action :authenticate, :verify_authenticity_token
+  skip_before_action :authenticate_user!, :verify_authenticity_token
 
   def collect
     head :forbidden and return unless params[:authorization_key] == ENV['ARMA_AUTHORIZATION_KEY']

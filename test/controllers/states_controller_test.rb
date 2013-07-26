@@ -5,13 +5,14 @@ class StatesControllerTest < ActionController::TestCase
     @installation = FactoryGirl.create(:installation)
     @state1 = FactoryGirl.create(:state)
     @state2 = FactoryGirl.create(:state)
+    @user = FactoryGirl.create(:user)
     @installation.states << @state1 << @state2
   end
 
   describe '#index' do
     describe 'when authenticated' do
       before do
-        cookies[:authenticated] = true
+        sign_in @user
         get :index, application_id: 12000, installation_id: @installation.id, format: 'js'
       end
 
@@ -27,15 +28,15 @@ class StatesControllerTest < ActionController::TestCase
     describe 'when not authenticated' do
       before { get :index, application_id: 12000, installation_id: @installation.id, format: 'js' }
 
-      it 'redirects' do
-        response.status.must_equal 302
+      it 'does not authorize' do
+        response.status.must_equal 401
       end
     end
   end
 
   describe '#diff' do
     before do
-      cookies[:authenticated] = true
+      sign_in @user
       get :diff, application_id: 12000, installation_id: @installation.id, id: @state1.id
     end
 

@@ -3,12 +3,13 @@ require 'test_helper'
 class ApplicationsControllerTest < ActionController::TestCase
   before do
     2.times { FactoryGirl.create(:application) }
+    @user = FactoryGirl.create(:user)
   end
 
   describe '#index' do
     describe 'when authenticated' do
       before do
-        cookies[:authenticated] = true
+        sign_in @user
         get :index
       end
 
