@@ -6,7 +6,7 @@ class @App
       return false
 
   @findInstallations: (o) ->
-    o.next('.installations')
+    o.next '.installations'
 
 $ ->
   $('.app-link').click (e) ->

@@ -8,7 +8,7 @@ class @Installation
       o.find('.loader').show()
 
   @findStates: (o) ->
-    o.next('.states')
+    o.next '.states'
 
   @collapse: (o) ->
     o.slideUp(100).removeClass 'toggle'
