@@ -3,15 +3,17 @@ class State < ActiveRecord::Base
 
   validates :ref, presence: true
 
-  def behind_by
-    if github_repo
+  attr_accessor :behind_by
+
+  def check_github!
+    if github_repo && !Rails.env.test?
       headers = `curl -u "$ARMA_GITHUB_USERNAME:$ARMA_GITHUB_PASSWORD" -I https://api.github.com/repos/$ARMA_GITHUB_USERNAME/#{github_repo}/compare/master...#{ref}`
 
       if headers.include? 'Status: 200 OK'
-        return JSON.parse(`curl -u "$ARMA_GITHUB_USERNAME:$ARMA_GITHUB_PASSWORD" https://api.github.com/repos/$ARMA_GITHUB_USERNAME/#{github_repo}/compare/master...#{ref}`)['behind_by']
+        self.behind_by = JSON.parse(`curl -u "$ARMA_GITHUB_USERNAME:$ARMA_GITHUB_PASSWORD" https://api.github.com/repos/$ARMA_GITHUB_USERNAME/#{github_repo}/compare/master...#{ref}`)['behind_by']
       end
-
-      return 0
     end
+
+    self.behind_by = behind_by.to_i
   end
 end

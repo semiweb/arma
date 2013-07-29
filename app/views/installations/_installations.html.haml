@@ -7,3 +7,4 @@
         = "(#{installation.env})" if installation.env
         = image_tag 'loader.gif', class: 'loader'
   .states
+    = render '/shared/states', :states => installation.states

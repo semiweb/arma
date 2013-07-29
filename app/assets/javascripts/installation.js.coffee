@@ -16,7 +16,9 @@ class @Installation
   @collapseAll: (col) ->
     col.slideUp(100).removeClass 'toggle'
 
-  @expand: (o, content, callback) ->
+  @expand: (appDiv, content, callback) ->
+    appDiv.find('.loader').hide()
+    o = App.findInstallations appDiv
     o.html(content).addClass('toggle').slideDown 200, ->
       callback o
 

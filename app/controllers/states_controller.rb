@@ -3,6 +3,8 @@ class StatesController < ApplicationController
 
   def index
     @states = Installation.find(params[:installation_id]).states.reverse
+    @states.first.check_github!
+
     respond_to do |format|
       format.js
     end

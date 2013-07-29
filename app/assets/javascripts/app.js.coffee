@@ -4,6 +4,8 @@ class @App
     if installations.hasClass 'toggle'
       Installation.collapse installations
       return false
+    else
+      o.find('.loader').show()
 
   @findInstallations: (o) ->
     o.next '.installations'

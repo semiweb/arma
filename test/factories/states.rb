@@ -4,6 +4,7 @@ FactoryGirl.define do
     branch        'master'
     local_changes false
     diff          'diff text'
+    github_repo   'repo'
     installation
   end
 end

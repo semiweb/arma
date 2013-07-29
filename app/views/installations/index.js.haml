@@ -2,8 +2,8 @@
   var appDiv = $("#application-#{@installations.first.application_id}")
   var content = "#{escape_javascript(render('installations', :installations => @installations))}"
 
-  Installation.expand(App.findInstallations(appDiv), content, function(div) {
-    $('.install-link', div).each(function() {
-      $(this).click()
+  Installation.expand(appDiv, content, function(div) {
+    div.find('.install-link').each(function() {
+      State.expand($(this))
     })
   })

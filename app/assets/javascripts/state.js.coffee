@@ -10,10 +10,11 @@ class @State
   @collapse: (o) ->
     o.slideUp(100).removeClass 'toggle'
 
-  @expand: (installDiv, content) ->
+  @expand: (installDiv, content = undefined) ->
     installDiv.find('.loader').hide()
     o = Installation.findStates installDiv
-    o.html(content).addClass('toggle').slideDown 200
+    o.html(content) if content?
+    o.addClass('toggle').slideDown 200
 
 $ ->
   $('.installations').on 'click', 'a.expand', (e) ->
