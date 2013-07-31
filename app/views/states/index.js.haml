@@ -1,4 +1,0 @@
-var installDiv = $("#installation-#{@states.first.installation_id}")
-var content = "#{escape_javascript(render('/shared/states', :states => @states))}"
-
-State.expand(installDiv, content)

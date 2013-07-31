@@ -1,3 +1,5 @@
+@import "base";
+
 #devise {
   .tile {
     width: 300px;
@@ -6,7 +8,7 @@
     top: 25%;
   }
   .login-screen {
-    background-color: #2C3E50!important;
+    background-color: $midnight_blue!important;
   }
   form {
     margin: 0;

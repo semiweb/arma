@@ -14,6 +14,8 @@
  *= require_tree .
  */
 
+@import "base";
+
  * {
   font-family: 'Open Sans', sans-serif;
   font-weight: 400;
@@ -26,12 +28,13 @@ html, body {
   height: 100%;
 }
 
-body.applications {
-  background: #7F8C8D;
-}
-
-body.sessions {
-  background: #2C3E50;
+body {
+  &.applications {
+    background: $asbestos;
+  }
+  &.sessions {
+    background: $midnight_blue;
+  }
 }
 
 #wrapper {

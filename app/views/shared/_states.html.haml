@@ -1,16 +1,5 @@
-- states = states.to_a
-- state = states.shift
-%p
-  = render '/shared/state', state: state
-  - behind_by = state.behind_by
-  = " -- behind origin/master by #{behind_by}" if behind_by > 0
-
-- unless states.empty?
-  %a.expand{ href: '#', 'data-no-turbolink' => '' }= 'Expand'
-
-  .expanded
-    - states.each do |state|
-      %p= render '/shared/state', state: state
+- states.each do |state|
+  %p= render '/shared/state', state: state
 
 
 

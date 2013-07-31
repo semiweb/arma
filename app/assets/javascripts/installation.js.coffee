@@ -1,14 +1,12 @@
 class @Installation
-  @handleClick: (o) ->
-    states = @findStates o
-    if states.hasClass 'toggle'
-      State.collapse states
-      return false
-    else
-      o.find('.loader').show()
+  @handleExpandLink: (link) ->
+    states = @findStates link
+    states.slideToggle 150, ->
+      states.toggleClass 'toggle'
 
   @findStates: (o) ->
-    o.next '.states'
+    installDiv = o.closest '.installation'
+    installDiv.next '.states'
 
   @collapse: (o) ->
     o.slideUp(100).removeClass 'toggle'

@@ -1,11 +1,13 @@
+@import "base";
+
 #applications {
   .loader {
     display: none;
   }
   a {
     text-decoration: none;
-    display: block;
     &.app-link {
+      display: block;
       margin-top: 20px;
       &:first-child {
         margin-top: 0;
@@ -13,8 +15,8 @@
     }
   }
   .application {
-    padding: 20px 0 20px 15px;
-    background: #2C3E50;
+    padding: 20px 0 10px 15px;
+    background: $midnight_blue;
     color: #fff;
     p {
       font-size: 18px;
@@ -23,48 +25,54 @@
   }
   .installations {
     display: none;
-    background: #95A5A6;
-    padding: 20px 0 20px 75px;
+    background: $concrete;
+    padding: 15px 0 15px 75px;
     p {
-      color: #34495E;
+      color: $wet_asphalt;
       padding-top: 10px;
     }
-    a p:hover {
-      color: #2980B9;
+    a {
+      color: darken($belize_hole, 10%);
+      &.expand {
+        font-weight: bold;
+      }
+      &:hover {
+        color: $belize_hole;
+      }
     }
   }
   .states {
     display: none;
-    background: #BDC3C7;
-    padding: 20px 0 20px 135px;
+    background: $silver;
+    padding: 10px 0 5px 135px;
     -webkit-border-top-left-radius: 8px;
     -webkit-border-bottom-left-radius: 8px;
     -moz-border-radius-topleft: 8px;
     -moz-border-radius-bottomleft: 8px;
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
-    a {
-      display: inline;
-    }
     p {
       color: #fff;
       padding-top: 0;
     }
   }
+  span.date {
+    color: #fff;
+  }
   span.warn {
-    color: #E74C3C;
+    color: $alizarin;
     font-size: 1.2em;
   }
   span.branch {
-    color: #34495E;
+    color: $wet_asphalt;
   }
   .expanded {
     display: none;
   }
-  a.expand {
-    color: #2980B9;
-  }
   .expanded {
     margin-top: 10px;
+  }
+  span.separator {
+    color: $silver;
   }
 }

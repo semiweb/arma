@@ -1,10 +1,20 @@
 - installations.each do |installation|
-  = link_to application_installation_states_path(installation.application_id, installation), remote: true, 'data-no-turbolink' => '', id: "installation-#{installation.id}", class: 'install-link' do
-    %div{ class: 'installation' }
-      %p
+  - states = installation.states.to_a
+  - state = states.shift
+  %div{  id: "installation-#{installation.id}", class: 'installation' }
+    %p
+      - if states.any?
+        %a.expand{ href: '#', 'data-no-turbolink' => '' }= installation.name
+      - else
         = installation.name
-        = ": #{installation.location}" if installation.location
-        = "(#{installation.env})" if installation.env
-        = image_tag 'loader.gif', class: 'loader'
-  .states
-    = render '/shared/states', :states => installation.states
+      = ": #{installation.location}" if installation.location
+      = "(#{installation.env})" if installation.env
+
+      %span.separator= separator(installation.name, installation.location, installation.env)
+
+      = render '/shared/state', state: state
+      = " -- behind origin/master by #{state.behind_by}" if state.behind_by > 0
+
+  - if states.any?
+    .states
+      = render '/shared/states', states: states
