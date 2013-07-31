@@ -2,7 +2,7 @@ require 'test_helper'
 
 class InstallationTest < ActiveSupport::TestCase
   before do
-    @installation = FactoryGirl.build(:installation)
+    @installation = FactoryGirl.create(:installation, name: 'zod')
   end
 
   [:name, :location, :env, :application].each do |method|
@@ -19,6 +19,16 @@ class InstallationTest < ActiveSupport::TestCase
 
   it 'is valid' do
     @installation.valid?.must_equal true
+  end
+
+  describe 'when multiple installations' do
+    before do
+      @installation2 = FactoryGirl.create(:installation, name: 'asgalus')
+    end
+
+    it 'orders installations' do
+      Installation.first.name.must_equal 'asgalus'
+    end
   end
 
   describe 'when it has no name' do

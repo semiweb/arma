@@ -4,6 +4,8 @@ class Installation < ActiveRecord::Base
 
   validates :name, presence: true
 
+  default_scope { order :name }
+
   class << self
     def threaded_github_check(installations)
       threads = []
