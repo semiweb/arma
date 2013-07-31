@@ -9,7 +9,7 @@ class Installation < ActiveRecord::Base
       threads = []
       installations.each do |install|
         if install.states.present?
-          threads << Thread.new(install.states.first) { |s| s.check_github! }
+          threads << Thread.new(install.states.last) { |s| s.check_github! }
         end
       end
       threads.each { |t| t.join }

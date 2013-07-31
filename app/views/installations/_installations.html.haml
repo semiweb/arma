@@ -1,5 +1,5 @@
 - installations.each do |installation|
-  - states = installation.states.to_a
+  - states = installation.states.to_a.reverse
   - state = states.shift
   %div{  id: "installation-#{installation.id}", class: 'installation' }
     %p
