@@ -3,14 +3,13 @@
   - state = states.shift
   %div{  id: "installation-#{installation.id}", class: 'installation' }
     %p
-      - if states.any?
-        %a.expand{ href: '#', 'data-no-turbolink' => '' }= installation.name
-      - else
-        = installation.name
-      = ": #{installation.location}" if installation.location
-      = "(#{installation.env})" if installation.env
-
-      %span.separator= separator(installation.name, installation.location, installation.env)
+      %span.installation-details
+        - if states.any?
+          %a.expand{ href: '#', 'data-no-turbolink' => '' }= installation.name
+        - else
+          = installation.name
+        = ": #{installation.location}" if installation.location
+        = "(#{installation.env})" if installation.env
 
       = render '/shared/state', state: state
       = " -- behind origin/master by #{state.behind_by}" if state.behind_by > 0
