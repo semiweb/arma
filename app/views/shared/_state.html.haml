@@ -5,3 +5,4 @@
 - else
   = "#{state.ref}"
 %span.warn= '*' if state.local_changes
+%span.warn= "+#{state.local_commits}" if state.local_commits
