@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130801150518) do
+ActiveRecord::Schema.define(version: 20130726144256) do
 
   create_table "applications", force: true do |t|
     t.string   "name"
@@ -34,13 +34,13 @@ ActiveRecord::Schema.define(version: 20130801150518) do
   create_table "states", force: true do |t|
     t.string   "ref"
     t.string   "branch"
-    t.boolean  "local_changes"
     t.text     "diff"
+    t.integer  "local_commits"
+    t.string   "github_repo"
+    t.datetime "commit_date"
     t.integer  "installation_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "github_repo"
-    t.integer  "local_commits"
   end
 
   add_index "states", ["installation_id"], name: "index_states_on_installation_id"

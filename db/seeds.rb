@@ -12,7 +12,7 @@ installations = Installation.create!([{ name: 'icm', location: 'location', env: 
                                       { name: 'chuq', location: 'location', env: 'production', application: applications.first },
                                       { name: 'icm', location: 'location', env: 'production', application: applications.last }])
 
-states = State.create!([{ ref: 'dfg85dfg2fd6f9df5g665fffffds', branch: 'master', local_changes: true, diff: 'diff text', installation: installations[0] },
-                        { ref: 'srthrsth85231gsrhsrhg546668t', branch: 'master', local_changes: false, installation: installations[0] },
-                        { ref: '12sfgh5sf6gh48fsgh566f5sg4hg', branch: 'master', local_changes: false, installation: installations[1] },
+states = State.create!([{ ref: 'dfg85dfg2fd6f9df5g665fffffds', branch: 'master', diff: 'diff text', installation: installations[0] },
+                        { ref: 'srthrsth85231gsrhsrhg546668t', branch: 'master', installation: installations[0] },
+                        { ref: '12sfgh5sf6gh48fsgh566f5sg4hg', branch: 'master', installation: installations[1] },
                         { ref: 'sf6h54sr6t54hs5r4hss5rth456h', branch: 'master', installation: installations[2] }])

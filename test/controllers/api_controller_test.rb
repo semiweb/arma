@@ -59,7 +59,6 @@ class ApiControllerTest < ActionController::TestCase
         state: {
           ref:           '245edf89g544tyyu87456sdfdsfpsdfg',
           branch:        'master',
-          local_changes: true,
           diff:          'diff text'
         },
         application:       { name: application },

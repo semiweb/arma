@@ -5,7 +5,7 @@ class StateTest < ActiveSupport::TestCase
     @state = FactoryGirl.build(:state)
   end
 
-  [:ref, :branch, :local_changes, :local_commits, :diff, :installation, :github_repo, :behind_by, :check_github!].each do |method|
+  [:ref, :branch, :local_commits, :diff, :installation, :github_repo, :behind_by, :check_github!, :commit_date].each do |method|
     it "responds to #{method}" do
       @state.must_respond_to method
     end
@@ -13,6 +13,11 @@ class StateTest < ActiveSupport::TestCase
 
   it 'is valid' do
     @state.valid?.must_equal true
+  end
+
+  it 'sets the commit date' do
+    @state.save!
+    @state.commit_date.wont_be_nil
   end
 
   describe 'when it has no ref' do

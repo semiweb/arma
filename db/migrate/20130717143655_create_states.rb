@@ -3,8 +3,10 @@ class CreateStates < ActiveRecord::Migration
     create_table :states do |t|
       t.string :ref
       t.string :branch
-      t.boolean :local_changes
       t.text :diff
+      t.integer :local_commits
+      t.string :github_repo
+      t.datetime :commit_date
       t.references :installation, index: true
 
       t.timestamps
