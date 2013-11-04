@@ -8,7 +8,7 @@ class ApiController < ApplicationController
       begin
         application = Application.find_or_create_by!(application_params)
         installation = application.installations.find_or_create_by!(installation_params)
-        installation.states.create!(state_params)
+        installation.states.create!(state_params) unless Rails.env.production? && installation.states.last.ref == state_params['ref']
       rescue Exception => e
         head :unprocessable_entity and return
       end
