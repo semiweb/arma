@@ -8,7 +8,13 @@ class ApiController < ApplicationController
       begin
         application = Application.find_or_create_by!(application_params)
         installation = application.installations.find_or_create_by!(installation_params)
-        installation.states.create!(state_params) unless Rails.env.production? && installation.states.last.try(:ref) == state_params['ref']
+
+        # does not create a new state if commit received = last commit but update the updated_at
+        unless Rails.env.production? && installation.states.last.try(:ref) == state_params['ref']
+          installation.states.create!(state_params)
+        else
+          installation.states.last.touch
+        end
       rescue Exception => e
         head :unprocessable_entity and return
       end
