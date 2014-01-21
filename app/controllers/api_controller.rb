@@ -15,7 +15,7 @@ class ApiController < ApplicationController
         else
           installation.states.last.touch
         end
-      rescue Exception => e
+      rescue => e
         head :unprocessable_entity and return
       end
     end
