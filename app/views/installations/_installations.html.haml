@@ -1,19 +1,22 @@
-- installations.each do |installation|
-  - states = installation.states.to_a.reverse
-  - state = states.shift
-  %div{  id: "installation-#{installation.id}", class: 'installation' }
-    %p
-      %span.installation-details
-        - if states.any?
-          %a.expand{ href: '#', 'data-no-turbolink' => '' }= installation.name
-        - else
-          = installation.name
-        = ": #{installation.location}" if installation.location
-        = "(#{installation.env})" if installation.env
+%table
+  %thead
+    %tr
+      %th= 'NAME'
+      %th= 'ENV'
+      %th= 'PRECISION'
+      %th= 'RESTART DATE'
+      %th= 'BRANCH'
+      %th= 'COMMIT SHA'
+      %th= 'COMMIT DATE'
+      %th= 'LOCAL DIFF/COMMITS'
+      %th= 'BEHIND MASTER BY'
+  %tbody
+    - installations.each do |installation|
+      - state = installation.states.last
+      %tr
+        %td.name= installation.name
+        %td= installation.env
+        %td= installation.location
 
-      = render '/shared/state', state: state
-      = " -- behind origin/master by #{state.behind_by}" if state.behind_by > 0
-
-  - if states.any?
-    .states
-      = render '/shared/states', states: states
+        = render '/shared/state', state: state
+        %td= state.behind_by > 0 ? state.behind_by : nil

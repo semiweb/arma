@@ -1,6 +1,9 @@
-%span.date= "#{state.created_at.strftime("%B %d, %Y - %H:%M:%S")} | "
-%span.branch= "#{state.branch}:#{state.ref} (#{state.commit_date.strftime("%B %d, %Y - %H:%M:%S")})"
-- if state.diff.present?
-  %span.warn
-    = link_to "+local", diff_application_installation_state_path(state.installation.application_id, state.installation_id, state.id), target: :_blank
-%span.warn= "+#{state.local_commits}" if state.local_commits && state.local_commits > 0
+%td= state.created_at.strftime("%B %d, %Y - %H:%M:%S")
+%td= state.branch
+%td= state.ref[0..5]
+%td= state.commit_date.strftime("%B %d, %Y - %H:%M:%S")
+%td
+  - if state.diff.present?
+    %span.warn
+      = link_to '+local', diff_application_installation_state_path(state.installation.application_id, state.installation_id, state.id), target: :_blank
+  %span.warn= "+#{state.local_commits}" if state.local_commits && state.local_commits > 0

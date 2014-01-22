@@ -13,6 +13,3 @@ class @App
 $ ->
   $('.app-link').click (e) ->
     App.handleClick $(this)
-
-  $('#applications').on 'click', '.expand', (e) ->
-    Installation.handleExpandLink $(this)
