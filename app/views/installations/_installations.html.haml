@@ -13,7 +13,7 @@
   %tbody
     - installations.each do |installation|
       - state = installation.states.last
-      %tr
+      %tr{ class: cycle('odd', 'even') }
         %td.name= installation.name
         %td= installation.env
         %td= installation.location
