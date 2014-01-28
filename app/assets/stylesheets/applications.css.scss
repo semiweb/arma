@@ -8,10 +8,7 @@
     text-decoration: none;
     &.app-link {
       display: block;
-      margin-top: 20px;
-      &:first-child {
-        margin-top: 0;
-      }
+      border-bottom: 1px solid #fff;
     }
   }
   .application {
@@ -26,7 +23,6 @@
   .installations {
     display: none;
     background: $concrete;
-    padding: 15px 0 15px 75px;
     a {
       color: darken($belize_hole, 10%);
     }
@@ -61,5 +57,8 @@
   }
   td.name {
     font-weight: bold;
+  }
+  table {
+    width: 100%;
   }
 }
