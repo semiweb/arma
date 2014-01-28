@@ -5,7 +5,7 @@ class StateTest < ActiveSupport::TestCase
     @state = FactoryGirl.build(:state)
   end
 
-  [:ref, :branch, :local_commits, :diff, :installation, :github_repo, :behind_by, :check_github!, :commit_date].each do |method|
+  [:ref, :message, :branch, :local_commits, :diff, :installation, :github_repo, :behind_by, :check_github!, :commit_date].each do |method|
     it "responds to #{method}" do
       @state.must_respond_to method
     end

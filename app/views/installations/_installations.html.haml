@@ -7,6 +7,7 @@
       %th= 'RESTART DATE'
       %th= 'BRANCH'
       %th= 'COMMIT SHA'
+      %th= 'MESSAGE'
       %th= 'COMMIT DATE'
       %th= 'LOCAL DIFF/COMMITS'
       %th= 'BEHIND MASTER BY'
@@ -19,4 +20,5 @@
         %td= installation.location
 
         = render '/shared/state', state: state
+
         %td= state.behind_by > 0 ? state.behind_by : nil
