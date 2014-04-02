@@ -14,11 +14,12 @@
   %tbody
     - installations.each do |installation|
       - state = installation.states.last
-      %tr{ class: cycle('odd', 'even') }
+      - uptodate = state.behind_by == 0 ? 'uptodate' : ''
+      %tr{ class: "#{cycle('odd', 'even')} #{uptodate}" }
         %td.name= installation.name
         %td= installation.env
-        %td= installation.location
+        %td= installation.location == 'undefined' ? nil : installation.location
 
         = render '/shared/state', state: state
 
-        %td= state.behind_by > 0 ? state.behind_by : nil
+        %td.behind_by= state.behind_by
