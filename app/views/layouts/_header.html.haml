@@ -4,6 +4,7 @@
       = yield
   .navbar.navbar-inverse.navbar-fixed-top
     .navbar-inner
+      = link_to 'Home', root_path, class: 'btn btn-large btn-info'
       = link_to 'Sign out', destroy_user_session_path, method: :delete, class: 'btn btn-large btn-info right'
 - else
   - content_for :main do

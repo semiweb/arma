@@ -1,6 +1,6 @@
 @import "base";
 
-#applications {
+#applications, #states {
   .loader {
     display: none;
   }
@@ -11,21 +11,9 @@
       border-bottom: 1px solid #fff;
     }
   }
-  .application {
-    padding: 20px 0 10px 15px;
-    background: $midnight_blue;
-    color: #fff;
-    p {
-      font-size: 18px;
-      font-weight: lighter;
-    }
-  }
   .installations {
     display: none;
     background: $concrete;
-    a {
-      color: darken($belize_hole, 10%);
-    }
   }
   span.warn {
     color: $alizarin;
@@ -37,36 +25,14 @@
   span.separator {
     color: $silver;
   }
-  td, th {
-    padding: 10px 15px;
-  }
-  th {
-    font-weight: bold;
-  }
-  thead {
-    border-bottom: 4px solid #2980b9;
-    color: #fff;
-  }
-  tbody tr {
-    &.odd {
-      background: #fff;
-    }
-    &.even {
-      background: darken(#fff, 5%);
-    }
-    &.uptodate {
-      .name, .behind_by {
-        color: $emerald;
-      }
-      .behind_by {
-        font-weight: bold;
-      }
-    }
-  }
-  td.name {
-    font-weight: bold;
-  }
-  table {
-    width: 100%;
+}
+
+.application, #installation {
+  padding: 20px 0 10px 15px;
+  background: $midnight_blue;
+  color: #fff;
+  p {
+    font-size: 18px;
+    font-weight: lighter;
   }
 }

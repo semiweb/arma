@@ -29,7 +29,7 @@ html, body {
 }
 
 body {
-  &.applications {
+  &.applications, &.states {
     background: $asbestos;
   }
   &.sessions {
@@ -43,4 +43,46 @@ body {
 
 input[type="radio"], input[type="checkbox"] {
   margin: 0!important;
+}
+
+td, th {
+  padding: 10px 15px;
+}
+
+th {
+  font-weight: bold;
+  background: $peter_river;
+}
+
+thead {
+  color: #fff;
+}
+
+tbody tr {
+  &.odd {
+    background: #fff;
+  }
+  &.even {
+    background: darken(#fff, 5%);
+  }
+  &.uptodate {
+    .name, .behind_by {
+      color: $emerald;
+    }
+    .behind_by {
+      font-weight: bold;
+    }
+  }
+}
+
+td.name {
+  font-weight: bold!important;
+}
+
+tr.development {
+  color: $concrete;
+}
+
+table {
+  width: 100%;
 }
