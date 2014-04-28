@@ -1,6 +1,8 @@
 #installation
   %p
     = @installation.name
+    = @installation.env
+    = "#{@installation.location}" if @installation.location != 'undefined'
 #states
   %table
     %thead
