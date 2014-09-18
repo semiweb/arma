@@ -1,0 +1,11 @@
+%td{style: 'text-align: center; width: 10px;'}
+  = check_box_tag('changelogs_ids[]', "#{changelog[:db_obj].id}", !changelog[:db_obj].committed)
+%td= changelog[:db_obj].filename
+%td= changelog[:db_obj].timestamp.to_datetime.strftime("%B %d, %Y - %H:%M:%S")
+%td= changelog[:content]['affects']
+%td= changelog[:content]['description']
+%td
+  - if changelog[:db_obj].committed
+    Committed
+  - else
+    No committed

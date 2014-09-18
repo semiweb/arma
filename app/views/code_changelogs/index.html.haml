@@ -1,0 +1,21 @@
+#installation
+  %p
+    = @installation.name
+    = @installation.env
+    = "#{@installation.location}" if @installation.location != 'undefined'
+    \/ Code Changelog
+#changelogs
+  = form_tag(generate_content_application_installation_code_changelogs_path) do
+    %table
+      %thead
+        %tr
+          %th= submit_tag 'GENERATE', class: 'btn btn-success btn-form'
+          %th= 'FILENAME'
+          %th= 'DATE'
+          %th= 'AFFECT'
+          %th= 'MESSAGE'
+          %th= 'COMMIT DATE'
+      %tbody
+        - @changelogs.generate_list.each do |changelog|
+          %tr{ class: "#{cycle('odd', 'even')}" }
+            = render '/shared/changelog', changelog: changelog
