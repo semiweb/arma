@@ -1,11 +1,10 @@
 %td{style: 'text-align: center; width: 10px;'}
-  = check_box_tag('changelogs_ids[]', "#{changelog[:db_obj].id}", !changelog[:db_obj].committed)
-%td= changelog[:db_obj].filename
-%td= changelog[:db_obj].timestamp.to_datetime.strftime("%B %d, %Y - %H:%M:%S")
-%td= changelog[:content]['affects']
-%td= changelog[:content]['description']
+  = check_box_tag('changelogs_ids[]', "#{changelog.id}", !changelog.committed)
+%td= File.basename(changelog.filename, '.yml')
+%td= changelog.created_at.strftime("%B %d, %Y - %H:%M:%S")
+%td= simple_format(truncate(changelog.content()['description'], length: 100, separator: ' '))
 %td
-  - if changelog[:db_obj].committed
+  - if changelog.committed
     Committed
   - else
     No committed

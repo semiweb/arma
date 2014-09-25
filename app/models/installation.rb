@@ -17,4 +17,8 @@ class Installation < ActiveRecord::Base
       threads.each { |t| t.join }
     end
   end
+
+  def code_changelog_directory()
+    File.join('doc', self.application.name, self.name, self.env, self.location == 'undefined' ? '' : self.location)
+  end
 end
