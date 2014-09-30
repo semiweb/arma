@@ -11,9 +11,9 @@
         %tr
           %th= submit_tag 'GENERATE', class: 'btn btn-success btn-form'
           %th= 'FILENAME'
-          %th= 'DATE'
+          %th{style: 'width: 180px;'}= 'RECEIVED AT'
           %th= 'MESSAGE'
-          %th= 'COMMIT DATE'
+          %th{style: 'width: 180px;'}= 'COMMITTED AT'
       %tbody
         - @changelogs.generate_list.each do |changelog|
           %tr{ class: "#{cycle('odd', 'even')}" }
