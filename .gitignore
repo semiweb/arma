@@ -18,4 +18,4 @@
 .idea
 .project
 RELEASE.txt
-Gemfile.lock
+#Gemfile.lock
