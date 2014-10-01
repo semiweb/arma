@@ -36,6 +36,7 @@ gem 'flat-ui-rails'
 gem 'devise', '~> 3.0.0'
 gem 'thin', '~> 1.5.1'
 gem 'haml', '~> 4.0.3'
+gem 'code_changelog', :git => 'https://github.com/semiweb/code_changelog.git'
 
 group :dev do
   gem 'pry', '~> 0.9.12.2'

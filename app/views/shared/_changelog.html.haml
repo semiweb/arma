@@ -1,0 +1,11 @@
+%td{style: 'text-align: center; width: 10px;'}
+  = check_box_tag('changelogs_ids[]', "#{changelog.id}", changelog.committed_at.nil?)
+%td= File.basename(changelog.filename, '.yml')
+%td= changelog.created_at.strftime("%B %d, %Y - %H:%M:%S")
+%td
+  .growing= simple_format(changelog.content()['description'])
+%td
+  - if changelog.committed_at.nil?
+    \-
+  - else
+    = changelog.committed_at.strftime("%B %d, %Y - %H:%M:%S")

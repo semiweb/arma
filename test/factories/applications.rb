@@ -7,6 +7,6 @@ end
 
 FactoryGirl.define do
   sequence :name do |n|
-    "Nagano#{n}"
+    "TestNagano#{n}"
   end
 end

@@ -7,6 +7,15 @@ Arma::Application.routes.draw do
           get :diff
         end
       end
+
+      resources :code_changelogs, only: [:index] do
+        collection do
+          post :generate_content
+        end
+        collection do
+          post :commit
+        end
+      end
     end
   end
 

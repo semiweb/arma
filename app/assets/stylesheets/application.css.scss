@@ -86,3 +86,16 @@ tr.development {
 table {
   width: 100%;
 }
+
+.btn-form {
+  color: $midnight_blue!important;
+}
+
+.growing {
+  max-height: 50px;
+  overflow: hidden;
+}
+
+.growing.grown {
+  max-height: initial;
+}
