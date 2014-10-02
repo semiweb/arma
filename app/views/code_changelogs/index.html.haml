@@ -4,6 +4,8 @@
     = @installation.env
     = "#{@installation.location}" if @installation.location != 'undefined'
     \/ Code Changelog
+  = form_tag(toggle_show_changelog_count_application_installation_code_changelogs_path) do
+    = submit_tag "#{@installation.show_changelog_count ? 'Hide' : 'Show'} changelog on home page", class: 'btn btn-success btn-form'
 #changelogs
   = form_tag(generate_content_application_installation_code_changelogs_path) do
     %table

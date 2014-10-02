@@ -12,7 +12,7 @@
       %th= 'LOCAL DIFF/COMMITS'
       %th= 'BEHIND MASTER BY'
       %th= 'HISTORY'
-      %th= 'CODE CHANGELOG'
+      %th= 'CHANGELOG'
   %tbody
     - installations.each do |installation|
       - state = installation.states.last
@@ -26,6 +26,6 @@
 
         %td.behind_by= state.behind_by
         %td= link_to image_tag('book.png'), application_installation_states_path(installation.application_id, installation)
-        %td= link_to image_tag('book.png'), application_installation_code_changelogs_path(installation.application_id, installation)
+        %td= "#{link_to(image_tag('book.png'), application_installation_code_changelogs_path(installation.application_id, installation))} #{installation.nb_changelogs_uncommitted}".html_safe
 
 

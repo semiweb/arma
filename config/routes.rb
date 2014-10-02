@@ -15,6 +15,9 @@ Arma::Application.routes.draw do
         collection do
           post :commit
         end
+        collection do
+          post :toggle_show_changelog_count
+        end
       end
     end
   end
