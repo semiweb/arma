@@ -7,7 +7,7 @@ class CodeChangelogsControllerTest < ActionController::TestCase
     @user = FactoryGirl.create(:user)
     @application.installations << @installation
 
-    @directory = File.join('doc', @installation.application.name, @installation.name, @installation.env, @installation.location == 'undefined' ? '' : @installation.location)
+    @directory = @installation.code_changelog_directory
     filename_1 = '20140911212555_test_1.yml'
     filename_2 = '20140911212555_test_2.yml'
     @file1_path = File.join(@directory, filename_1)
