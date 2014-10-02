@@ -14,4 +14,4 @@
           = link_to 'Back', application_installation_code_changelogs_path(@installation.application_id, @installation), class: 'btn btn-success btn-form'
           = submit_tag('Commit', class: 'btn btn-success btn-form')
       %tr
-        %td= @content.html_safe
+        %td= simple_format(@content)
