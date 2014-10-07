@@ -3,7 +3,7 @@
 %td= File.basename(changelog.filename, '.yml')
 %td= changelog.created_at.strftime("%B %d, %Y - %H:%M:%S")
 %td
-  .growing= simple_format(changelog.content()['description'])
+  .growing= simple_format(changelog.description)
 %td
   - if changelog.committed_at.nil?
     \-

@@ -21,7 +21,7 @@ class CodeChangelogsController < ApplicationController
 
   def toggle_show_changelog_count
     installation = Installation.find(params[:installation_id])
-    installation.update(show_changelog_count: !installation.show_changelog_count)
+    installation.update_attributes!(show_changelog_count: !installation.show_changelog_count)
     redirect_to application_installation_code_changelogs_path(installation.application_id, installation)
   end
 end
