@@ -15,8 +15,8 @@ class CodeChangelogsControllerTest < ActionController::TestCase
     FileUtils.mkdir_p(@directory)
     File.open(@file1_path, 'w') { |file| file.write("affect: all\ndescription: Test code changelog 1") }
     File.open(@file2_path, 'w') { |file| file.write("affect: all\ndescription: Test code changelog 2") }
-    @code_changelog_1 = CodeChangelog::ArmaCodeChangelogEntry.create!(filename: filename_1, installation: @installation)
-    @code_changelog_2 = CodeChangelog::ArmaCodeChangelogEntry.create!(filename: filename_2, installation: @installation)
+    @code_changelog_1 = CodeChangelog::ArmaCodeChangelogEntry.create!(filename: filename_1, directory: @installation.code_changelog_directory)
+    @code_changelog_2 = CodeChangelog::ArmaCodeChangelogEntry.create!(filename: filename_2, directory: @installation.code_changelog_directory)
   end
 
   after do
@@ -67,15 +67,15 @@ class CodeChangelogsControllerTest < ActionController::TestCase
       end
 
       it 'provide code changelog' do
-        assigns(:content).must_equal 'Test code changelog 1<br><br>Test code changelog 2<br><br>'
+        assigns(:content).must_equal "Voici les dernière modifications depuis la dernière mise à jour :\n\nTest code changelog 1\n\nTest code changelog 2\n\n"
         assigns(:changelogs_ids).must_equal [@code_changelog_1.id.to_s, @code_changelog_2.id.to_s]
       end
     end
     describe 'when commit' do
 
       before do
-        CodeChangelog::ArmaCodeChangelogEntry.find_by_filename('20140911212555_test_1.yml').committed.must_equal false
-        CodeChangelog::ArmaCodeChangelogEntry.find_by_filename('20140911212555_test_2.yml').committed.must_equal false
+        CodeChangelog::ArmaCodeChangelogEntry.find_by_filename('20140911212555_test_1.yml').committed_at.must_be_nil
+        CodeChangelog::ArmaCodeChangelogEntry.find_by_filename('20140911212555_test_2.yml').committed_at.must_be_nil
         sign_in @user
         post :commit, application_id: 12000, installation_id: @installation.id, :changelogs_ids => [@code_changelog_1.id, @code_changelog_2.id]
       end
@@ -85,8 +85,8 @@ class CodeChangelogsControllerTest < ActionController::TestCase
       end
 
       it 'committed' do
-        CodeChangelog::ArmaCodeChangelogEntry.find_by_filename('20140911212555_test_1.yml').committed.must_equal true
-        CodeChangelog::ArmaCodeChangelogEntry.find_by_filename('20140911212555_test_2.yml').committed.must_equal true
+        CodeChangelog::ArmaCodeChangelogEntry.find_by_filename('20140911212555_test_1.yml').committed_at.wont_be_nil
+        CodeChangelog::ArmaCodeChangelogEntry.find_by_filename('20140911212555_test_2.yml').committed_at.wont_be_nil
       end
     end
   end
