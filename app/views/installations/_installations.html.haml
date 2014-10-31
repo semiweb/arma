@@ -28,6 +28,6 @@
         %td= link_to image_tag('book.png'), application_installation_states_path(installation.application_id, installation)
         %td
           = link_to(image_tag('book.png'), application_installation_code_changelogs_path(installation.application_id, installation))
-          %span.shift_right= installation.nb_changelogs_uncommitted
+          %span.changelogs_count= installation.nb_changelogs_uncommitted
 
 

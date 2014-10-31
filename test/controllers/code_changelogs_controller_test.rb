@@ -37,7 +37,9 @@ class CodeChangelogsControllerTest < ActionController::TestCase
         response.status.must_equal 200
       end
 
-      it 'provide code changelog' do
+      # this should check that the changelogs returned are not only an instance of the specified model but
+      # more importantly that they are those related to the installation passed in parameters
+      it 'provides code changelog' do
         assigns(:changelogs).must_be_instance_of CodeChangelog::ArmaCodeChangelog
       end
     end

@@ -1,3 +1,9 @@
+GIT
+  remote: https://github.com/semiweb/code_changelog.git
+  revision: 5bd044f25de6f56b4f6b3bbb126b41876b36bee4
+  specs:
+    code_changelog (0.0.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -54,7 +60,6 @@ GEM
       factory_girl (~> 4.2.0)
       railties (>= 3.0.0)
     ffi (1.9.0)
-    flat-ui-rails (0.0.2)
     formatador (0.2.4)
     guard (1.8.1)
       formatador (>= 0.2.4)
@@ -171,10 +176,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  code_changelog!
   coffee-rails (~> 4.0.0)
   devise (~> 3.0.0)
   factory_girl_rails (~> 4.2.1)
-  flat-ui-rails
   guard-minitest (~> 1.0.0)
   haml (~> 4.0.3)
   jbuilder (~> 1.2)

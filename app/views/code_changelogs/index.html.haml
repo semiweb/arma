@@ -1,22 +1,30 @@
-#installation
-  %p
+#installation.changelogs
+  %p.title
     = @installation.name
     = @installation.env
     = "#{@installation.location}" if @installation.location != 'undefined'
     \/ Code Changelog
-  = form_tag(toggle_show_changelog_count_application_installation_code_changelogs_path) do
-    = submit_tag "#{@installation.show_changelog_count ? 'Hide' : 'Show'} changelog on home page", class: 'btn btn-success btn-form'
+  = form_tag toggle_show_changelog_count_application_installation_code_changelogs_path, id: :toggle_homepage_changelogs do
+    = submit_tag "#{@installation.show_changelog_count ? 'Hide' : 'Show'} changelogs on home page", class: 'btn btn-success'
+
 #changelogs
-  = form_tag(generate_content_application_installation_code_changelogs_path) do
+  = form_tag generate_content_application_installation_code_changelogs_path do
     %table
       %thead
         %tr
-          %th= submit_tag 'GENERATE', class: 'btn btn-success btn-form'
+          %th#show_button= submit_tag 'SHOW', class: 'btn btn-warning'
           %th= 'FILENAME'
-          %th{style: 'width: 180px;'}= 'RECEIVED AT'
+          %th= 'RECEIVED AT'
           %th= 'MESSAGE'
-          %th{style: 'width: 180px;'}= 'COMMITTED AT'
+          %th= 'COMMITTED AT'
       %tbody
         - @changelogs.generate_list.each do |changelog|
-          %tr{ class: "#{cycle('odd', 'even')}" }
-            = render '/shared/changelog', changelog: changelog
+          %tr{ class: cycle('odd', 'even') }
+            %td.show_changelog
+              = check_box_tag('changelogs_ids[]', changelog.id, changelog.committed_at.nil?)
+            %td= File.basename(changelog.filename, '.yml')
+            %td= changelog.created_at.strftime("%B %d, %Y - %H:%M:%S")
+            %td
+              .growing= simple_format(changelog.description)
+            %td
+              = changelog.committed_at.strftime("%B %d, %Y - %H:%M:%S") unless changelog.committed_at.nil?

@@ -18,11 +18,11 @@ class Installation < ActiveRecord::Base
     end
   end
 
-  def code_changelog_directory()
+  def code_changelog_directory
     File.join('doc', self.application.name, self.name, self.env, self.location == 'undefined' ? '' : self.location)
   end
 
-  def nb_changelogs_uncommitted()
+  def nb_changelogs_uncommitted
     nb_uncommitted = CodeChangelog::ArmaCodeChangelog.new(self.code_changelog_directory).nb_uncommitted
     (nb_uncommitted == 0 || !self.show_changelog_count) ? '' : nb_uncommitted
   end

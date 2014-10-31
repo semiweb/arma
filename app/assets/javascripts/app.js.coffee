@@ -13,6 +13,3 @@ class @App
 $ ->
   $('.app-link').click (e) ->
     App.handleClick $(this)
-
-  $('.growing').click (e) ->
-    $(this).toggleClass('grown')

@@ -29,7 +29,7 @@ html, body {
 }
 
 body {
-  &.applications, &.states {
+  &.applications, &.states, &.code_changelogs {
     background: $asbestos;
   }
   &.sessions {
@@ -85,21 +85,4 @@ tr.development {
 
 table {
   width: 100%;
-}
-
-.btn-form {
-  color: $midnight_blue;
-}
-
-.growing {
-  max-height: 50px;
-  overflow: hidden;
-}
-
-.growing.grown {
-  max-height: initial;
-}
-
-.shift_right {
-  margin-left: 5px;
 }

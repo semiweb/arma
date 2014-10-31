@@ -15,5 +15,5 @@
         %th= 'LOCAL DIFF/COMMITS'
     %tbody
       - @states.each do |state|
-        %tr{ class: "#{cycle('odd', 'even')}" }
+        %tr{ class: cycle('odd', 'even') }
           = render '/shared/state', state: state
