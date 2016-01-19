@@ -24,20 +24,9 @@ th#show_button {
 
 form#toggle_homepage_changelogs, form#commit_changelogs_form {
   margin: 0;
-  input {
+  input, a {
     margin-left: 15px;
     color: $midnight_blue;
-  }
-}
-
-form#commit_changelogs_form {
-  input {
-    margin-left: -2px;
-    border-radius: 0 10px 10px 0;
-  }
-  a {
-    margin-left: 15px;
-    border-radius: 10px 0 0 10px;
   }
 }
 
@@ -52,4 +41,8 @@ form#commit_changelogs_form {
 #changelogs_content {
   padding: 15px;
   color: #fff;
+}
+
+#changelogs .tablesorter th:first-child{
+  width: 80px;
 }

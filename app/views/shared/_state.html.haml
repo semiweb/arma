@@ -1,6 +1,6 @@
 %td= state.created_at.strftime("%B %d, %Y - %H:%M:%S")
 %td= state.branch
-%td= state.ref[0..9]
+%td= link_to state.ref[0..9], "https://github.com/semiweb/nagano/commit/#{state.ref}", target: "_blank"
 %td= truncate state.message, length: 50, omission: '..'
 %td= state.commit_date.strftime("%B %d, %Y - %H:%M:%S")
 %td

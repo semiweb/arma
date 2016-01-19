@@ -5,4 +5,11 @@
         %p
           = application.name
           = image_tag 'loader_white.gif', class: 'loader'
-    .installations
+          = image_tag 'reload.png', class: 'reload'
+
+
+    -if params[:action] == 'show' && params[:id].present? && params[:id] == application.id.to_s
+      .installations.toggle
+        =render('installations/installations', :installations => @installations)
+    -else
+      .installations

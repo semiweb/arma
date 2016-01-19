@@ -1,6 +1,6 @@
 Arma::Application.routes.draw do
   devise_for :users
-  resources :applications, only: [:index] do
+  resources :applications, only: [:index,:show] do
     resources :installations, only: [:index] do
       resources :states, only: [:index] do
         member do

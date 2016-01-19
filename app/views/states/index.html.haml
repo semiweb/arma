@@ -1,10 +1,14 @@
+-content_for :back do
+  = link_to "Go back", application_path(@installation.application),class: 'btn btn-large btn-danger'
+
+
 #installation
   %p
     = @installation.name
     = @installation.env
     = "#{@installation.location}" if @installation.location != 'undefined'
 #states
-  %table
+  %table.tablesorter
     %thead
       %tr
         %th= 'RESTART DATE'

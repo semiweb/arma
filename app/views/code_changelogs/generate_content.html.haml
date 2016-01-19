@@ -1,3 +1,7 @@
+-content_for :back do
+  = link_to 'Go back', application_installation_code_changelogs_path(@installation.application_id, @installation),class: 'btn btn-large btn-danger'
+
+
 #installation.changelogs
   %p.title
     = @installation.name
@@ -7,7 +11,6 @@
   = form_tag commit_application_installation_code_changelogs_path, id: :commit_changelogs_form do
     - @changelogs_ids.each do |id|
       = hidden_field_tag 'changelogs_ids[]', id
-    = link_to 'Back to list', application_installation_code_changelogs_path(@installation.application_id, @installation), class: 'btn btn-primary'
     = submit_tag 'Commit', class: 'btn btn-success'
 
 #changelogs_content
