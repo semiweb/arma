@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141002192359) do
+ActiveRecord::Schema.define(version: 20160119183819) do
 
   create_table "applications", force: true do |t|
     t.string   "name"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20141002192359) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "show_changelog_count", default: true
+    t.text     "notes"
   end
 
   add_index "installations", ["application_id"], name: "index_installations_on_application_id"

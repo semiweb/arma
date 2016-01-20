@@ -1,7 +1,8 @@
 Arma::Application.routes.draw do
   devise_for :users
   resources :applications, only: [:index,:show] do
-    resources :installations, only: [:index] do
+    resources :installations, only: [:index,:show,:update,:destroy] do
+
       resources :states, only: [:index] do
         member do
           get :diff

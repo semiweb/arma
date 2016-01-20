@@ -1,0 +1,26 @@
+@import "base";
+
+.text-align{
+  &--center{text-align:center;}
+  &--left{text-align:left;}
+  &--right{text-align:right;}
+}
+
+.display-table{
+  display:table;
+  width:100%;
+  &-cell{
+    display:table-cell;
+  }
+}
+.valign{
+  &--top{
+    vertical-align: top;
+  }
+  &--middle{
+    vertical-align: middle;
+  }
+  &--bottom{
+    vertical-align: bottom;
+  }
+}

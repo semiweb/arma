@@ -3874,78 +3874,79 @@ input[type="submit"].btn.btn-mini {
 }
 
 .alert {
-  padding: 8px 35px 8px 14px;
+  padding: 15px;
   margin-bottom: 20px;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-  background-color: #fcf8e3;
-  border: 1px solid #fbeed5;
-  -webkit-border-radius: 4px;
-     -moz-border-radius: 4px;
-          border-radius: 4px;
+  border: 1px solid transparent;
+  border-radius: 4px;
 }
-
-.alert,
 .alert h4 {
-  color: #c09853;
+  margin-top: 0;
+  color: inherit;
 }
-
-.alert h4 {
-  margin: 0;
+.alert .alert-link {
+  font-weight: bold;
 }
-
-.alert .close {
+.alert > p,
+.alert > ul {
+  margin-bottom: 0;
+}
+.alert > p + p {
+  margin-top: 5px;
+}
+.alert-dismissable,
+.alert-dismissible {
+  padding-right: 35px;
+}
+.alert-dismissable .close,
+.alert-dismissible .close {
   position: relative;
   top: -2px;
   right: -21px;
-  line-height: 20px;
 }
-
 .alert-success {
-  color: #468847;
+  color: #3c763d;
   background-color: #dff0d8;
   border-color: #d6e9c6;
 }
-
-.alert-success h4 {
-  color: #468847;
+.alert-success hr {
+  border-top-color: #c9e2b3;
 }
-
-.alert-danger,
-.alert-error {
-  color: #b94a48;
-  background-color: #f2dede;
-  border-color: #eed3d7;
+.alert-success .alert-link {
+  color: #2b542c;
 }
-
-.alert-danger h4,
-.alert-error h4 {
-  color: #b94a48;
-}
-
 .alert-info {
-  color: #3a87ad;
+  color: #31708f;
   background-color: #d9edf7;
   border-color: #bce8f1;
 }
-
-.alert-info h4 {
-  color: #3a87ad;
+.alert-info hr {
+  border-top-color: #a6e1ec;
 }
-
-.alert-block {
-  padding-top: 14px;
-  padding-bottom: 14px;
+.alert-info .alert-link {
+  color: #245269;
 }
-
-.alert-block > p,
-.alert-block > ul {
-  margin-bottom: 0;
+.alert-warning {
+  color: #8a6d3b;
+  background-color: #fcf8e3;
+  border-color: #faebcc;
 }
-
-.alert-block p + p {
-  margin-top: 5px;
+.alert-warning hr {
+  border-top-color: #f7e1b5;
 }
-
+.alert-warning .alert-link {
+  color: #66512c;
+}
+.alert-danger {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}
+.alert-danger hr {
+  border-top-color: #e4b9c0;
+}
+.alert-danger .alert-link {
+  color: #843534;
+}
 .nav {
   margin-bottom: 20px;
   margin-left: 0;

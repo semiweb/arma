@@ -1,0 +1,14 @@
+#states
+  %table.tablesorter
+    %thead
+      %tr
+        %th= 'RESTART DATE'
+        %th= 'BRANCH'
+        %th= 'COMMIT SHA'
+        %th= 'MESSAGE'
+        %th= 'COMMIT DATE'
+        %th= 'LOCAL DIFF/COMMITS'
+    %tbody
+      - states.each do |state|
+        %tr{ class: cycle('odd', 'even') }
+          = render '/shared/state', state: state

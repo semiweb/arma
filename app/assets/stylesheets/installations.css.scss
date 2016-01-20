@@ -1,0 +1,84 @@
+@import "base";
+
+.installation{
+  font-size:0;
+  background:darken(#fff, 5%);
+  &_box{
+    display: inline-block;
+    width: 50%;
+    height: 400px;
+    vertical-align: top;
+    box-sizing: border-box;
+
+    &-content{
+      padding:10px 20px 10px;
+
+      &-title{
+        font-size: 1.3em;
+        font-weight: bold;
+        margin-bottom: 5px;
+        margin-top: 10px;
+
+        &:first-child{
+          margin-top:0;
+        }
+      }
+    }
+    &-item{
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      margin-bottom: 2px;
+      padding-bottom: 2px;
+
+      .display-table-cell{
+        width: 50%;
+      }
+
+      &-title{
+        font-size:1.1em;
+      }
+      &-value{
+        border-left: 1px solid rgba(0,0,0,0.1);
+        padding-left: 10px;
+      }
+    }
+    &-actions{
+      margin-top:20px;
+    }
+    &-action{
+
+      &-title{
+        margin-top:4px;
+      }
+    }
+  }
+  &_infos{
+
+  }
+  &_notes{
+    border-left:1px solid white;
+  }
+  &_history{
+
+  }
+}
+
+
+
+.form_notes{
+
+  &-title{
+    font-size:1.5em;
+  }
+
+  &-textarea{
+    width:100%;
+    box-sizing:border-box;
+    height:285px;
+    resize: none;
+  }
+
+  width:100%;
+  box-sizing: border-box;
+  text-align:center;
+  padding:10px;
+}

@@ -1,5 +1,5 @@
 -content_for :back do
-  = link_to "Go back", application_path(@installation.application),class: 'btn btn-large btn-danger'
+  = link_to "Go back", application_installation_path(@installation.application.id, @installation),class: 'btn btn-large btn-danger'
 
 
 #installation
@@ -7,17 +7,4 @@
     = @installation.name
     = @installation.env
     = "#{@installation.location}" if @installation.location != 'undefined'
-#states
-  %table.tablesorter
-    %thead
-      %tr
-        %th= 'RESTART DATE'
-        %th= 'BRANCH'
-        %th= 'COMMIT SHA'
-        %th= 'MESSAGE'
-        %th= 'COMMIT DATE'
-        %th= 'LOCAL DIFF/COMMITS'
-    %tbody
-      - @states.each do |state|
-        %tr{ class: cycle('odd', 'even') }
-          = render '/shared/state', state: state
+= render 'list', states: @states

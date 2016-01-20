@@ -11,7 +11,7 @@
       %th= 'COMMIT DATE'
       %th= 'LOCAL DIFF/COMMITS'
       %th= 'BEHIND MASTER BY'
-      %th{ :data => { :sorted=>"false"} }= 'HISTORY'
+      %th{ :data => { :sorted=>"false"} }= 'VIEW/EDIT'
       %th{ :data => { :sorted=>"false"} }= 'CHANGELOG'
   %tbody
     - installations.each do |installation|
@@ -29,7 +29,7 @@
         = render '/shared/state', state: state
 
         %td.behind_by= state.behind_by
-        %td{style: 'text-align:center;'}= link_to image_tag('history.png'), application_installation_states_path(installation.application_id, installation)
+        %td{style: 'text-align:center;'}= link_to image_tag('edit.png'), application_installation_path(installation.application_id, installation)
         %td{style: 'text-align:center;'}
           = link_to(image_tag('book.png'), application_installation_code_changelogs_path(installation.application_id, installation))
           %span.changelogs_count= installation.nb_changelogs_uncommitted
