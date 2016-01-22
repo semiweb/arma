@@ -20,7 +20,7 @@ class InstallationsController < ApplicationController
 
   def update
     if @installation.update(installation_params)
-      flash[:danger] = "Installation updated"
+      flash[:success] = "Installation updated"
     else
       flash[:danger] = "Something happened!"
     end

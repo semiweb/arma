@@ -21,9 +21,9 @@
 
 
 
-      = render 'info', title:'Application : ', value:link_to(@installation.application.name,application_path(@installation.application))
+      = render 'info', title:'Application : ', value:link_to(@installation.application.name, application_path(@installation.application))
 
-      - if @installation.env == 'production'
+      - if @installation.env == 'production' && @installation.application.name == 'Nagano3'
         = render 'info', title:'Name : ', value:link_to(@installation.name, "http://#{@installation.name.downcase}.nagano.semiweb.ca", target: "_blank")
       -else
         = render 'info', title:'Name : ', value:@installation.name
@@ -31,13 +31,13 @@
       = render 'info', title:'Environment : ', value:@installation.env
 
       -#-if @installation.location != 'undefined'
-      = render 'info', title:'Location : ', value:(@installation.location!='undefined'?@installation.location : '')
+      = render 'info', title:'Location : ', value:(@installation.location != 'undefined' ? @installation.location : '')
 
 
       = render 'info', title:'Restart date : ', value:"#{state.created_at.strftime("%B %d, %Y - %H:%M:%S")} (#{time_ago_in_words(state.created_at)} ago)"
 
       = render 'info', title:'Current branch : ', value:state.branch
-      = render 'info', title:'Current ref : ', value:link_to(state.ref, "https://github.com/semiweb/nagano/commit/#{state.ref}", target: "_blank")
+      = render 'info', title:'Current ref : ', value:link_to(state.ref, "https://github.com/semiweb/#{@installation.application.name == 'Nagano3'?'nagano':'mobia'}/commit/#{state.ref}", target: "_blank")
 
       .installation_box-content-title
         ="Commit infos"

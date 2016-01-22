@@ -19,10 +19,10 @@
       - uptodate = state.behind_by == 0 ? 'uptodate' : ''
       %tr{ class: "#{cycle('odd', 'even')} #{uptodate} #{installation.env}" }
         %td.name
-          - if installation.env == 'production'
-            =link_to(installation.name, "http://#{installation.name.downcase}.nagano.semiweb.ca", target: "_blank")
+          - if installation.env == 'production' && installation.application.name == 'Nagano3'
+            = link_to(installation.name, "http://#{installation.name.downcase}.nagano.semiweb.ca", target: "_blank")
           - else
-            =installation.name
+            = installation.name
         %td= installation.env
         %td= installation.location == 'undefined' ? nil : installation.location
 

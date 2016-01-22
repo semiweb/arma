@@ -10,6 +10,6 @@
 
     -if params[:action] == 'show' && params[:id].present? && params[:id] == application.id.to_s
       .installations.toggle
-        =render('installations/installations', :installations => @installations)
+        = render('installations/installations', :installations => @installations)
     -else
       .installations
