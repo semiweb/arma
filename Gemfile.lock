@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/semiweb/code_changelog.git
-  revision: 5bd044f25de6f56b4f6b3bbb126b41876b36bee4
+  revision: ced0feaccd07b4af2c3c690713e5231c41eb8b27
   specs:
     code_changelog (0.0.1)
 
