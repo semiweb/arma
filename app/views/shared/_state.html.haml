@@ -1,6 +1,6 @@
 %td= state.created_at.strftime("%B %d, %Y - %H:%M:%S")
 %td= state.branch
-%td= link_to state.ref[0..9], "https://github.com/semiweb/#{@installation.application.name == 'Nagano3'?'nagano':'mobia'}/commit/#{state.ref}", target: "_blank"
+%td= link_to state.ref[0..9], "https://github.com/semiweb/#{state.installation.application.name == 'Nagano3'?'nagano':'mobia'}/commit/#{state.ref}", target: "_blank"
 %td= truncate state.message, length: 50, omission: '..'
 %td= state.commit_date.strftime("%B %d, %Y - %H:%M:%S")
 %td
