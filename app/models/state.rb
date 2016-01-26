@@ -11,7 +11,7 @@ class State < ActiveRecord::Base
 
     behind_by = `git -C #{git_path} rev-list --count #{ref}..origin/master`
 
-    self.behind_by = (behind_by == '' ? 'Problem getting the behind_by' : behind_by)
+    self.behind_by = (behind_by == '' ? 'Problem getting the behind_by' : behind_by.to_i)
 
   end
 
