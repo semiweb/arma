@@ -9,7 +9,7 @@ class Installation < ActiveRecord::Base
   class << self
     def threaded_git_check(installations, application)
       threads = []
-      git_path = "./doc/applications_git/#{application.name}/"
+      git_path = "#{Rails.root.to_s}/doc/applications_git/#{application.name}/"
       `git -C #{git_path} fetch`
 
       installations.each do |install|
