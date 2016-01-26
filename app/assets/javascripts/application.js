@@ -15,4 +15,5 @@
 //= require turbolinks
 //= require flat-ui
 //= require jquery.tablesorter
+//= require clipboard
 //= require_tree .

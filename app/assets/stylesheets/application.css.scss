@@ -67,11 +67,19 @@ tbody tr {
     background: darken(#fff, 5%);
   }
   &.uptodate {
+
+    background: mix(white,$emerald,75%);
+
     .name, .behind_by {
-      color: $emerald;
+      //color: $emerald;
     }
     .behind_by {
       font-weight: bold;
+    }
+    a{
+      color:inherit;
+      font-size:inherit;
+      font-weight:inherit;
     }
   }
 }
@@ -109,4 +117,14 @@ table {
   top:10px;
   right:10px;
   z-index:2000;
+}
+
+.copy_link {
+  float: right;
+  margin-top: -3px;
+  cursor:pointer;
+}
+.external_link {
+  float:right;
+  margin-top:1px;
 }

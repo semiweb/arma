@@ -21,6 +21,7 @@
         %td.name
           - if installation.env == 'production' && installation.application.name == 'Nagano3'
             = link_to(installation.name, "http://#{installation.name.downcase}.nagano.semiweb.ca", target: "_blank")
+            = link_to(image_tag('external_link.png', class:'external_link'), "http://#{installation.name.downcase}.nagano.semiweb.ca", target: "_blank")
           - else
             = installation.name
         %td= installation.env

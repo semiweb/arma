@@ -11,7 +11,7 @@ class InstallationTest < ActiveSupport::TestCase
     end
   end
 
-  [:threaded_github_check].each do |method|
+  [:threaded_git_check].each do |method|
     it "the model responds to #{method}" do
       Installation.must_respond_to method
     end

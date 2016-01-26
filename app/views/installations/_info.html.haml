@@ -4,4 +4,8 @@
       = title
   .display-table-cell.valign--middle
     .installation_box-item-value
-      = value
+      - if value.is_a?(Array)
+        - value.each do |val|
+          = val
+      - else
+        = value

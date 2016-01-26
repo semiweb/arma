@@ -33,6 +33,8 @@ $ ->
   if $(".installations.toggle").length > 0
     $(".installations.toggle").prev(".app-link").find('.reload').show()
 
+  clipboard = new Clipboard('[data-clipboard-link]');
+
   $(".reload").click (e) ->
     e.preventDefault();
     e.stopPropagation();

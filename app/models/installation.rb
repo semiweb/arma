@@ -7,11 +7,14 @@ class Installation < ActiveRecord::Base
   default_scope { order :name, env: :desc }
 
   class << self
-    def threaded_github_check(installations)
+    def threaded_git_check(installations, application)
       threads = []
+      git_path = "./doc/applications_git/#{application.name}/"
+      `git -C #{git_path} fetch`
+
       installations.each do |install|
         if install.states.present?
-          threads << Thread.new(install.states.last) { |s| s.check_github! }
+          threads << Thread.new(install.states.last) { |s| s.check_git!(git_path) }
         end
       end
       threads.each { |t| t.join }
@@ -19,7 +22,8 @@ class Installation < ActiveRecord::Base
   end
 
   def code_changelog_directory
-    Rails.root.join('doc', self.application.name, self.name, self.env, self.location == 'undefined' ? '' : self.location).to_s
+    location = self.location == 'undefined' ? '' : self.location
+    Rails.root.join('doc', 'changelogs', self.application.name, self.name, self.env, location).to_s.gsub(Rails.root.to_s, '.')
   end
 
   def nb_changelogs_uncommitted

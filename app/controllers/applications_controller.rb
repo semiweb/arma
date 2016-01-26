@@ -5,8 +5,10 @@ class ApplicationsController < ApplicationController
 
   def show
     @applications = Application.all
-    @installations = Application.find(params[:id]).installations
-    Installation.threaded_github_check(@installations)
+    application = Application.find(params[:id])
+    @installations = application.installations
+    Installation.threaded_git_check(@installations, application)
+
     render 'index'
   end
 

@@ -1,6 +1,6 @@
 @import "base";
 
-#applications, #states {
+#applications {
   .loader {
     display: none;
   }
@@ -13,6 +13,10 @@
   }
   .installations {
     background: $concrete;
+
+    a{
+      text-decoration:underline;
+    }
   }
   span.warn {
     color: $alizarin;
@@ -42,9 +46,13 @@
 .application:hover{
   background:$wet_asphalt;
 }
-
+.behind_by{
+  text-align:center;
+}
 .changelogs_count {
   margin-left: 5px;
+  min-width: 1em;
+  display: inline-block;
 }
 
 

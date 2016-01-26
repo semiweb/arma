@@ -3,8 +3,9 @@ class InstallationsController < ApplicationController
   layout false
 
   def index
-    @installations = Application.find(params[:application_id]).installations.includes(:states)
-    Installation.threaded_github_check(@installations)
+    application = Application.find(params[:application_id])
+    @installations = application.installations.includes(:states)
+    Installation.threaded_git_check(@installations, application)
 
     respond_to do |format|
       format.js
@@ -13,7 +14,7 @@ class InstallationsController < ApplicationController
 
   def show
     @states = @installation.states.limit(10).order('created_at DESC')
-    Installation.threaded_github_check([@installation])
+    Installation.threaded_git_check([@installation], @installation.application)
 
     render layout: "application"
   end
@@ -34,9 +35,9 @@ class InstallationsController < ApplicationController
   end
 
   private
-  def set_installation
-    @installation = Installation.find(params[:id])
-  end
+    def set_installation
+      @installation = Installation.find(params[:id])
+    end
     def installation_params
       params.require(:installation).permit!
     end
