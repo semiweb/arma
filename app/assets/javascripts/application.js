@@ -16,4 +16,6 @@
 //= require flat-ui
 //= require jquery.tablesorter
 //= require clipboard
+//= require augment.min
+//= require lunr.min
 //= require_tree .

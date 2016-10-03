@@ -17,7 +17,14 @@
     - installations.each do |installation|
       - state = installation.states.last
       - uptodate = state.behind_by == 0 ? 'uptodate' : ''
-      %tr{ class: "#{cycle('odd', 'even')} #{uptodate} #{installation.env}" }
+
+      - lunr_data = {}
+      - lunr_data['lunr-index'] = installation.id
+      - lunr_data['lunr-branch'] = state.branch
+      - lunr_data['lunr-sha'] = state.ref[0..9]
+      - lunr_data['lunr-name'] = installation.name
+      - lunr_data['lunr-env'] = installation.env
+      %tr{ class: "installation #{cycle('odd', 'even')} #{uptodate} #{installation.env}", data: lunr_data}
         %td.name
           - if installation.env == 'production' && installation.application.name == 'Nagano3'
             = link_to(installation.name, "http://#{installation.name.downcase}.nagano.semiweb.ca", target: "_blank")
@@ -36,3 +43,6 @@
           %span.changelogs_count= installation.nb_changelogs_uncommitted
 
 
+:javascript
+  App.reload_lunr();
+  App.add_indexes_to_lunr();

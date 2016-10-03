@@ -128,3 +128,17 @@ table {
   float:right;
   margin-top:1px;
 }
+.search_bar{
+  position:relative;
+}
+#lunr_search{
+  height: 40px;
+  padding: 0 30px 0 5px;
+  box-sizing: border-box;
+}
+.search_icon{
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 20px;
+}
