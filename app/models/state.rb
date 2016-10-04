@@ -9,7 +9,7 @@ class State < ActiveRecord::Base
 
   def check_git!(git_path)
 
-    behind_by = `git -C #{git_path} rev-list --count #{ref}..origin/master`
+    behind_by = `git -C #{git_path} rev-list --count #{ref}..origin/#{branch}`
 
     self.behind_by = (behind_by == '' ? 'Problem getting the behind_by' : behind_by.to_i)
 
