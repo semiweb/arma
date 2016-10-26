@@ -23,6 +23,11 @@ Arma::Application.routes.draw do
     end
   end
 
+  get 'settings', to: 'settings#index'
+  namespace :settings do
+    resources :branch_watchers
+  end
+
   get 'authentication', to: 'authentications#authentication'
   post 'authenticate', to: 'authentications#authenticate'
 

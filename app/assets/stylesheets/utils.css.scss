@@ -6,13 +6,21 @@
   &--right{text-align:right;}
 }
 
-.display-table{
-  display:table;
-  width:100%;
-  &-cell{
-    display:table-cell;
+.display{
+
+  &-table{
+    display:table;
+    width:100%;
+    &-cell{
+      display:table-cell;
+    }
+  }
+
+  &-inline-block{
+    display:inline-block;
   }
 }
+
 .valign{
   &--top{
     vertical-align: top;
@@ -23,4 +31,10 @@
   &--bottom{
     vertical-align: bottom;
   }
+}
+
+.float{
+  &-right{float:right;}
+  &-left{float:left;}
+  &-none{float:none; clear:both;}
 }

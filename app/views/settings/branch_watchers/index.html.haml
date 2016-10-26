@@ -1,0 +1,30 @@
+.settings_menu
+  = "Branch watchers"
+
+  .settings_menu-sub
+    = link_to 'New', new_settings_branch_watcher_path, class: "btn btn-large btn-primary"
+    = render 'settings/menu'
+
+
+- if @branch_watchers.present?
+  %table.tablesorter
+    %thead
+      %tr
+        %th= "Branch name"
+        %th= "Color"
+        %th= "Application"
+        %th{ :data => { :sorted=>"false"} }= 'VIEW/EDIT'
+        %th{ :data => { :sorted=>"false"} }= 'DELETE'
+    %tbody
+      - @branch_watchers.each do |branch_watcher|
+        %tr
+          %td= branch_watcher.branch_name
+          %td= branch_watcher.color
+          %td= branch_watcher.application.name
+          %td{style: 'text-align:center;'}
+            = link_to image_tag('edit.png'), edit_settings_branch_watcher_path(branch_watcher)
+          %td{style: 'text-align:center;'}
+            =link_to settings_branch_watcher_path(branch_watcher), method: :delete, data: { confirm: "Are you sure you want to delete this branch watcher?"} do
+              =image_tag('delete.png')
+- else
+  = "No branch watchers setupped"

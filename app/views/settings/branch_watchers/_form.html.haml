@@ -1,0 +1,17 @@
+= form_for @branch_watcher, url:settings_branch_watcher_path(@branch_watcher) do |f|
+  %table.form_table.light
+    %thead
+    %tbody
+      %tr
+        %td= "Branch name : "
+        %td= f.text_field :branch_name
+      %tr
+        %td= "Color : "
+        %td= f.text_field :color, class: :colorpicker
+      %tr
+        %td= "Application : "
+        %td= f.select :application_id, options_from_collection_for_select(Application.all, :id, :name)
+      %tr
+        %td
+        %td= f.submit
+

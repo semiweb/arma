@@ -1,5 +1,8 @@
 %td= state.created_at.to_date
-%td= state.branch
+
+- branch_color = BranchWatcher.for_application(state.installation.application).for_branch_name(state.branch).first.try(:color)
+
+%td{style: branch_color.present? ? "color:#{branch_color}" : nil}= state.branch
 %td
   = link_to state.ref[0..9], "https://github.com/semiweb/#{state.installation.application.name == 'Nagano3'?'nagano':'mobia'}/commit/#{state.ref}", target: "_blank"
   = image_tag('copy.png', class:'copy_link', data:{:clipboard_text=>"#{state.ref}",:clipboard_link=>true})

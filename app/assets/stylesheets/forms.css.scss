@@ -1,0 +1,42 @@
+@import "base";
+
+.form_title{
+  @include page_title;
+
+  padding:5px 0 10px 15px;
+}
+.form_table{
+
+  &.light{
+    tr:nth-child(even){
+      background-color:$clouds;
+    }
+    tr:nth-child(odd){
+      background-color:darken($clouds, 5%);
+    }
+
+    tr{
+      border-bottom:1px solid $midnight_blue;
+    }
+
+    td:first-child{
+      border-right:1px solid $concrete;
+
+      font-size:16px;
+      text-align: right;
+    }
+
+    input{
+      margin:0;
+    }
+    input[type='submit']{
+      border:0;
+      padding:5px 10px;
+    }
+  }
+}
+
+input.colorpicker{
+  padding: 3px 3px;
+  text-indent: 0;
+}

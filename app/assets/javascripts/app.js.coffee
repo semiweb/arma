@@ -66,6 +66,8 @@ $ ->
 
   clipboard = new Clipboard('[data-clipboard-link]');
 
+  $("input.colorpicker").minicolors()
+
   $(".reload").click (e) ->
     e.preventDefault();
     e.stopPropagation();

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160125164526) do
+ActiveRecord::Schema.define(version: 20161026190652) do
 
   create_table "applications", force: true do |t|
     t.string   "name"
@@ -23,6 +23,14 @@ ActiveRecord::Schema.define(version: 20160125164526) do
     t.string   "filename"
     t.string   "directory"
     t.datetime "committed_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "branch_watchers", force: true do |t|
+    t.integer  "application_id"
+    t.string   "branch_name"
+    t.string   "color"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

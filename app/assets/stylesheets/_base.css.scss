@@ -18,3 +18,16 @@ $clouds: #ECF0F1;
 $silver: #BDC3C7;
 $concrete: #95A5A6;
 $asbestos: #7F8C8D;
+
+
+@mixin page_title() {
+  background-color:$belize_hole;
+  color:$clouds;
+
+  font-size: 26px;
+
+  border-top:1px solid $midnight_blue;
+  border-bottom:3px solid $peter_river;
+
+  overflow: hidden;
+}
