@@ -8,3 +8,4 @@ class @Installation
     o = App.findInstallations appDiv
     o.html(content).addClass('toggle').slideDown 200
     App.tablesort(o.find(".tablesorter"))
+    $("#lunr_search").trigger('keyup')

@@ -53,7 +53,6 @@ class @App
 $ ->
   $('.app-link').click (e) ->
     App.handleClick $(this)
-    $("#lunr_search").val('')
 
   $('#generateChangelog').click (e) ->
     e.preventDefault()
@@ -74,7 +73,7 @@ $ ->
     button.addClass('play')
     callback = (data) ->
       button.removeClass('play')
-      $("#lunr_search").val('')
+      $("#lunr_search").trigger('keyup')
 
     $.get button.parents('.app-link').attr('href'),  callback
 
