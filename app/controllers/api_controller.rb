@@ -20,6 +20,10 @@ class ApiController < ApplicationController
           installation.states.last.touch
         end
       rescue => e
+        message = e.to_s.encode('utf-16', :invalid => :replace, :undef => :replace).encode('utf-8')
+        error_message = "#{e.class}: #{message}\n#{e.backtrace.join("\n")}"
+
+        Rails.logger.error(error_message)
         head :unprocessable_entity and return
       end
     end
