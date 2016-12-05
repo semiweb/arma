@@ -9,10 +9,6 @@ class ApiController < ApplicationController
         application = Application.find_or_create_by!(application_params)
         installation = application.installations.find_or_create_by!(installation_params)
 
-        if params[:code_changelogs].present?
-          CodeChangelog::ArmaCodeChangelog.update_directory(installation.code_changelog_directory, params[:code_changelogs])
-        end
-
         # does not create a new state if commit received = last commit but update the updated_at
         unless Rails.env.production? && installation.states.last.try(:ref) == state_params['ref']
           installation.states.create!(state_params)
