@@ -1,0 +1,157 @@
+-content_for :back do
+  = link_to 'Go back', :back ,class: 'btn btn-large btn-danger'
+
+#installation
+  %p
+    = 'Changelog'
+.installation
+  .installation_infos.installation_box
+    .centered-title
+      .centered-title_label
+        = 'Installation information'
+    .installation_box-content
+      .installation_box-content-title
+        - last_state = @installation.states.last
+        - last_state_commit = Commit.find_by_ref(last_state.ref,@installation.application.id)
+        - application_id = @installation.application.id
+        = "#{@installation.name}  -  #{@installation.env}"
+        = render 'installations/info', title:'Installation name : ', value:link_to(@installation.name, application_installation_path(application_id, @installation))
+        = render 'installations/info', title:'Current commit : ', value: link_to(last_state.ref, application_commit_path(application_id, last_state.ref))
+        = render 'installations/info', title:'Current branch: ', value: last_state.branch
+        = render 'installations/info', title:'Affected features : ', value: @installation.affected.split(';').join(' ').upcase
+        %br
+  .installation_notes.installation_box{ style: 'height: auto;' }
+    .centered-title
+      .centered-title_label
+        = ""
+  .installation_history
+    .centered-title
+      .centered-title_label
+        ='Changelogs'
+  %div{style: 'margin-left:15px;margin-top:15px;'}
+    = check_box_tag 'toggle_ignore', id: 'ignore_toggle'
+    = 'Display ignored changelogs'
+    = check_box_tag 'toggle_installed','toggle_installed',true, id: 'ignore_installed'
+    = 'Display installed changelogs'
+    %br
+    %br
+    %table.tablesorter
+      %thead
+        %tr
+          %th= 'KEYWORD'
+          %th= 'AFFECTED'
+          %th= 'INSTALLED'
+          %th= 'CHANGELOG MESSAGE'
+          %th= 'ACTION'
+      %tbody
+        - @changelog_waiting.each do |cl|
+          - if @installation.affected.upcase.split(';').include?(cl.affected.to_s.upcase) || !cl.affected.present?
+            - installed = cl.commit <= last_state_commit
+            %tr{ class: "#{'installed' if installed} #{'changelog-ignored' if cl.ignored} #{cycle('odd', 'even')}" }
+              %td
+                = cl.keyword
+              %td
+                = cl.affected
+              %td
+                =  installed ? "\u2714" : "\u2716"
+              %td
+                = simple_format cl.content
+
+                = render 'shared/warning_changelogs', cl: cl, last_state_commit: last_state_commit, last_state: last_state
+              %td{ style: 'min-width: 100px;' }
+                = link_to icon('info-circle', style: 'font-size:2em', title:'Commit info'), application_commit_path(application_id, cl.commit.ref)
+
+:javascript
+  $('#selectAll').click(function() {
+    var self = this;
+       $(':checkbox').each(function() {
+           this.checked = self.checked;
+       });
+  });
+
+
+    $('#toggle_ignore').click(function() {
+      if(this.checked) {
+          $('tr.ignored').css({"display":"table-row"});
+        } else {
+          $('tr.ignored').css({"display":"none"});
+        }
+   });
+
+    $('#ignore_installed').click(function() {
+      if(this.checked) {
+          $('tr.installed').css({"display":"table-row"});
+        } else {
+          $('tr.installed').css({"display":"none"});
+        }
+   });
+
+
+       var dragSrcEl = null;
+
+    function handleDragStart(e) {
+        // Target (this) element is the source node.
+        // this.style.opacity = '0.4';
+
+        dragSrcEl = this;
+
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/html', this.innerHTML);
+    }
+
+    function handleDragOver(e) {
+        if (e.preventDefault) {
+            e.preventDefault(); // Necessary. Allows us to drop.
+        }
+
+        e.dataTransfer.dropEffect = 'move';  // See the section on the DataTransfer object.
+
+        return false;
+    }
+
+    function handleDragEnter(e) {
+        // this / e.target is the current hover target.
+        this.classList.add('over');
+    }
+
+    function handleDragLeave(e) {
+        this.classList.remove('over');  // this / e.target is previous target element.
+    }
+
+    function handleDrop(e) {
+        // this/e.target is current target element.
+
+        if (e.stopPropagation) {
+            e.stopPropagation(); // Stops some browsers from redirecting.
+        }
+
+        // Don't do anything if dropping the same column we're dragging.
+        if (dragSrcEl != this) {
+            // Set the source column's HTML to the HTML of the column we dropped on.
+            dragSrcEl.innerHTML = this.innerHTML;
+            this.innerHTML = e.dataTransfer.getData('text/html');
+        }
+
+        return false;
+    }
+
+    function handleDragEnd(e) {
+        // this/e.target is the source node.
+
+        [].forEach.call(cols, function (col) {
+            col.classList.remove('over');
+        });
+    }
+
+    var cols = document.querySelectorAll('#parent .parent');
+    [].forEach.call(cols, function (col) {
+        col.addEventListener('dragstart', handleDragStart, false);
+        col.addEventListener('dragenter', handleDragEnter, false)
+        col.addEventListener('dragover', handleDragOver, false);
+        col.addEventListener('dragleave', handleDragLeave, false);
+        col.addEventListener('drop', handleDrop, false);
+        col.addEventListener('dragend', handleDragEnd, false);
+    });
+
+
+

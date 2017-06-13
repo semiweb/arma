@@ -1,4 +1,5 @@
 class StatesController < ApplicationController
+
   def index
     @installation = Installation.find(params[:installation_id])
     @states = @installation.states.order('created_at DESC')

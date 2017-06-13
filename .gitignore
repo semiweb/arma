@@ -21,3 +21,5 @@
 .project
 RELEASE.txt
 #Gemfile.lock
+
+/doc/applications_git/*

@@ -2,6 +2,7 @@
   .search_bar.right
     %input#lunr_search{placeholder: 'Search'}
     = image_tag 'search.png', class: 'search_icon'
+
 #applications
   - @applications.each do |application|
     = link_to application_installations_path(application), remote: true, 'data-no-turbolink' => '', id: "application-#{application.id}", class: 'app-link' do

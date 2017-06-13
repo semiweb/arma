@@ -1,0 +1,196 @@
+#installation
+  %p
+    = 'Changelog report'
+.installation
+  .installation_infos.installation_box
+    .centered-title
+      .centered-title_label
+        = 'Installation information'
+    .installation_box-content
+      .installation_box-content-title
+      = form_tag application_changelog_report_path(@application,@changelog_report), method: :PATCH, action_to:'update_name'
+      = hidden_field_tag('action_to', 'update_name' )
+      = 'Changelog report name : '
+      = text_field_tag('changelog_name',@changelog_report.name, style:'width:89%')
+      = submit_tag('Save name', class:'btn btn-success')
+      %br
+      %br
+      = render 'installations/info', title:'Created on : ', value: @changelog_report.created_at
+      = render 'installations/info', title:'Last modification : ', value: @changelog_report.updated_at
+      = render 'installations/info', title:'Sent on : ', value: @changelog_report.sent? ? @changelog_report.sent : [link_to('"Mark as sent" ', application_changelog_report_path(@application,@changelog_report, action_to:'send'), method: :PATCH), "(Please save before)"]
+  .installation_infos.installation_box
+    .centered-title
+      .centered-title_label
+        = 'Commit associated'
+    .installation_box-content
+      .ul
+        - @changelog_report.changelogs.map{|x| x.commit}.uniq.each do |c|
+          .li
+            = link_to c.ref[0..9], application_commit_path(@application,c.ref)
+            = truncate(c.full_commit_message[0..125], :length => 125, :separator => ' ', omission: ' [...]')
+  .installation_history
+    .centered-title
+      .centered-title_label
+        ='Changelog Report Content'
+        = link_to('Add new Section', '#', id: 'add_header' , class: 'btn btn-danger') unless @changelog_report.sent?
+        = link_to('Save content', "javascript:save_all(#{@changelog_report.id})", class: 'btn btn-success' )unless @changelog_report.sent?
+    %br
+    %br
+    %ol.sortable.ui-sortable.mjs-nestedSortable-branch.mjs-nestedSortable-expanded{ @changelog_report.sent? ? {} : {class: 'sortable_not_sent'} }
+      -if @changelog_report.content.present?
+        != @changelog_report.content
+      - else
+        - @application.categories.each do |category|
+          - changelogs = @changelog_report.changelogs.select{|x| x.categories.include?(category)}
+          - if changelogs.count > 0
+            %li.mjs-nestedSortable-branch.mjs-nestedSortable-expanded.header{ style: 'display: list-item;', id:"menuItem_#{category.name.upcase}" }
+              .menuDiv
+                %span
+                  - unless @changelog_report.sent?
+                    %span.deleteMenu.ui-icon.ui-icon-closethick{ 'data-id' => category.name.upcase, :title =>'Click to delete item.' }
+                      =icon('close')
+                .menuEdit.hidden.header_item{:id => "menuItem_#{category.name.upcase}"}
+                  %p{ @changelog_report.sent? ? {} : {contentEditable: 'true'} }
+                    = category.name.upcase
+            - changelogs.each do |cl|
+              %li.mjs-nestedSortable-branch.mjs-nestedSortable-expanded{style: 'display: list-item;', id: "menuItem_#{cl.id.to_s}"}
+                .menuDiv
+                  %span
+                    - unless @changelog_report.sent?
+                      %span.deleteMenu.ui-icon.ui-icon-closethick{'data-id' => cl.id, :title => 'Click to delete item.'}
+                        =icon('close')
+                  .menuEdit.hidden{:id => "menuItem_#{cl.id.to_s}"}
+                    %p{ @changelog_report.sent? ? {} : {contentEditable: 'true'} }
+                      - splitted = cl.content.split("\n")
+                      = splitted.shift
+                      - splitted.each do |x|
+                        %span{ @changelog_report.sent? ? {style: 'padding-left:15px;display:block;' } : {style: 'padding-left:15px;display:block;' , contentEditable: 'true'} }
+                          = "- #{x}"
+        - changelogs = @changelog_report.changelogs.select{|x| x.categories.empty?}
+        - if changelogs.count > 0
+          %li.mjs-nestedSortable-branch.mjs-nestedSortable-expanded.header{style: 'display: list-item;', id: 'menuItem_nocat'}
+            .menuDiv
+              %span
+                - unless @changelog_report.sent?
+                  %span.deleteMenu.ui-icon.ui-icon-closethick{title:'Click to delete item.'}
+                    =icon('close')
+              .menuEdit.hidden.header_item{ id: 'menuItem_no_cat'}
+                %p{ @changelog_report.sent? ? {} : {contentEditable: 'true'} }
+                  = ''
+          - changelogs.each do |cl|
+            %li.mjs-nestedSortable-branch.mjs-nestedSortable-expanded{style: 'display: list-item;', id: "menuItem_#{cl.id.to_s}"}
+              .menuDiv
+                %span
+                  - unless @changelog_report.sent?
+                    %span.deleteMenu.ui-icon.ui-icon-closethick{'data-id' => cl.id, title: 'Click to delete item.'}
+                      =icon('close')
+                .menuEdit.hidden{:id => "menuItem_#{cl.id.to_s}"}
+                  %p{ @changelog_report.sent? ? {} : {contentEditable: 'true'} }
+                    - splitted = cl.content.split("\n")
+                    = splitted.shift
+                    - splitted.each do |x|
+                      %span{ @changelog_report.sent? ? {style: 'padding-left:15px;display:block;' } : {style: 'padding-left:15px;display:block;' , contentEditable: 'true'} }
+                        = "- #{x}"
+:javascript
+
+    $().ready(function(){
+      var ns = $('ol.sortable_not_sent').nestedSortable({
+        forcePlaceholderSize: true,
+        handle: 'div',
+        helper: 'clone',
+        items: 'li',
+        opacity: .6,
+        placeholder: 'placeholder',
+        revert: 250,
+        tabSize: 25,
+        tolerance: 'pointer',
+        toleranceElement: '> div',
+        maxLevels: 1,
+        isTree: true,
+        expandOnHover: 700,
+        startCollapsed: false,
+        change: function(){
+          console.log('Relocated item');
+        }
+      });
+
+      $('.expandEditor').attr('title','Click to show/hide item editor');
+      $('.disclose').attr('title','Click to show/hide children');
+      $('.deleteMenu').attr('title', 'Click to delete item.');
+
+      $('.disclose').on('click', function() {
+        $(this).closest('li').toggleClass('mjs-nestedSortable-collapsed').toggleClass('mjs-nestedSortable-expanded');
+        $(this).toggleClass('ui-icon-plusthick').toggleClass('ui-icon-minusthick');
+      });
+
+      $('.expandEditor, .itemTitle').click(function(){
+        var id = $(this).attr('data-id');
+        $('#menuEdit'+id).toggle();
+        $(this).toggleClass('ui-icon-triangle-1-n').toggleClass('ui-icon-triangle-1-s');
+      });
+
+      $('.deleteMenu').click(function(){
+        var id = $(this).attr('data-id');
+        $('#menuItem_'+id).remove();
+      });
+
+      $('#serialize').click(function(){
+        serialized = $('ol.sortable').nestedSortable('serialize');
+        $('#serializeOutput').text(serialized+'\n\n');
+      })
+
+      $('#toHierarchy').click(function(e){
+        hiered = $('ol.sortable').nestedSortable('toHierarchy', {startDepthCount: 0});
+        hiered = dump(hiered);
+        (typeof($('#toHierarchyOutput')[0].textContent) != 'undefined') ?
+        $('#toHierarchyOutput')[0].textContent = hiered : $('#toHierarchyOutput')[0].innerText = hiered;
+      })
+
+      $('#toArray').click(function(e){
+        arraied = $('ol.sortable').nestedSortable('toArray', {startDepthCount: 0});
+        arraied = dump(arraied);
+        (typeof($('#toArrayOutput')[0].textContent) != 'undefined') ?
+        $('#toArrayOutput')[0].textContent = arraied : $('#toArrayOutput')[0].innerText = arraied;
+      });
+    });
+
+  $( "#add_header" ).click(function(event) {
+    event.preventDefault();
+    var title = prompt("Please enter your header name");
+    var header = document.getElementsByClassName('header')[0];
+    var clone = header.cloneNode(true)
+    clone.getElementsByTagName('p')[0].innerHTML = title
+    clone_id = Math.floor((Math.random() * 1000) + 1);
+    clone.getElementsByTagName('span')[1].setAttribute('data-id' , clone_id);
+    clone.setAttribute('id',"menuItem_"+clone_id)
+    clone.getElementsByTagName('div')[1].setAttribute('id',"menuItem_"+clone_id)
+    header.parentNode.appendChild(clone);
+
+    $('.deleteMenu').click(function(){
+      var id = $(this).attr('data-id');
+      $('#menuItem_'+id).remove();
+    });
+  });
+
+  function save_all(id) {
+    var content = $('ol')[0].innerHTML
+    $.ajax({
+            method: "POST",
+            url: "/applications/1/drag.json",
+            data: {content: content, report_id: id },
+            success: (function(res){
+              $('#alert_success').hide();
+              $('#alert_success .alert_message').html('Changelog report is sucessfully saved');
+              $('#alert_success').fadeIn(150).delay(4000).fadeOut(150);
+            })
+      });
+    }
+
+    $( document ).ready(function() {
+        if(#{@changelog_report.sent?}){
+          $('div').removeAttr('contenteditable');
+          $('span').removeAttr('contenteditable');
+          $('p').removeAttr('contenteditable');
+        }
+      });
+

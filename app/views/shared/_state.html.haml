@@ -4,7 +4,7 @@
 
 %td{style: branch_color.present? ? "color:#{branch_color}" : nil}= state.branch
 %td
-  = link_to state.ref[0..9], "https://github.com/semiweb/#{state.installation.application.name == 'Nagano3'?'nagano':'mobia'}/commit/#{state.ref}", target: "_blank"
+  = link_to state.ref[0..9], application_commit_path(state.installation.application, state.ref)
   = image_tag('copy.png', class:'copy_link', data:{:clipboard_text=>"#{state.ref}",:clipboard_link=>true})
 %td= truncate state.message, length: 50, omission: '..'
 %td= state.commit_date.to_date

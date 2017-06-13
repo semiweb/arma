@@ -1,25 +1,22 @@
 Arma::Application.routes.draw do
   devise_for :users
-  resources :applications, only: [:index,:show] do
+  resources :applications, only: [:index,:show, :edit, :update] do
+    resources :categories, only: [:update,:destroy,:create]
+    resources :changelog_reports, only: [ :create, :update, :destroy, :edit, :index]
+    match 'drag', to: 'changelogs#dragsave', via: ['POST']
+    resources :commits, only: [:show, :index, :update] do
+      resources :changelogs, only: [:create,:destroy, :update]
+    end
     resources :installations, only: [:index,:show,:update,:destroy] do
-
+      resources :server_monitors, only:[:index]
+      resources :changelogs, only: [:index]
       resources :states, only: [:index] do
         member do
           get :diff
         end
       end
 
-      resources :code_changelogs, only: [:index] do
-        collection do
-          post :generate_content
-        end
-        collection do
-          post :commit
-        end
-        collection do
-          post :toggle_show_changelog_count
-        end
-      end
+
     end
   end
 

@@ -1,0 +1,35 @@
+textarea[disabled]{
+  background-color:orange;
+  opacity: 0.3;
+  color: black;
+  cursor: not-allowed;
+}
+
+textarea[readonly], select[readonly] {
+  color:black;
+  cursor: not-allowed;
+}
+
+span.changelog_content:hover ,  span.changelog_cat:hover{
+  border: 1px dotted grey;
+  cursor:pointer;
+}
+
+.changelog_editable textarea {
+  width:100%;
+}
+
+.changelog_editable {
+  display:none;
+}
+
+#changelogs i.fa {
+  font-size:25px;
+  color: black;
+  vertical-align: middle;
+}
+
+#changelogs textarea {
+  padding-left:5px;
+  padding-right:0px;
+}

@@ -1,0 +1,9 @@
+$('#<%=@category.id%> .form-save').hide();
+$('#<%=@category.id%> .display-name')[0].innerHTML = "<%=@category.name%>"
+$('#<%=@category.id%> .display-name').show();
+$('#<%=@category.id%> .edit_button').show();
+
+
+$('#alert_success').hide();
+$('#alert_success .alert_message').html('Category name is sucessfully saved');
+$('#alert_success').fadeIn(150).delay(4000).fadeOut(150);

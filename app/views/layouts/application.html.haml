@@ -11,10 +11,26 @@
 
     - flash.each do |name, msg|
       - name = "success" if name == :notice
-      %div{class:"alert alert-#{name} alert-dismissible"}
+      - name = "warning" if name == :alert
+      %div{class:"alert alert-#{name} alert-dismissible alert-rails"}
         %button{type:'button', class:'close', data:{dismiss:'alert'}}
           %span="X"
         %div.alert_message
           =msg
+
+    %div#alert_success{class:"alert alert-success alert-dismissible", style:"display:none"}
+      %button{type:'button', class:'close', data:{dismiss:'alert'}}
+        %span="X"
+      %div.alert_message
+
+    %div#alert_warning{class:"alert alert-warning alert-dismissible", style:"display:none"}
+      %button{type:'button', class:'close', data:{dismiss:'alert'}}
+        %span="X"
+      %div.alert_message
+
+    :javascript
+       $(".alert-rails").delay(4000).slideUp(400, function() {
+            $(this).alert('close');
+        });
 
     = yield :main

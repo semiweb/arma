@@ -20,6 +20,7 @@ gem 'therubyracer', platforms: :ruby
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
@@ -38,7 +39,6 @@ end
 gem 'devise', '~> 3.0.0'
 gem 'thin', '~> 1.5.1'
 gem 'haml', '~> 4.0.3'
-gem 'code_changelog', git: 'https://github.com/semiweb/code_changelog.git'
 
 group :dev do
   gem 'pry', '~> 0.9.12.2'
@@ -62,3 +62,11 @@ end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+
+
+gem 'font-awesome-sass', '~> 4.7.0'
+gem 'debugger'
+gem 'autosize'
+gem 'net-ping'
+
+gem 'whenever', :require => false

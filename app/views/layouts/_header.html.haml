@@ -4,8 +4,26 @@
       = yield
   .navbar.navbar-inverse.navbar-fixed-top
     .navbar-inner
-      = link_to 'Home', root_path, class: 'btn btn-large btn-info'
-      = yield :back
+      .dropdown{style:"display:inline-block;"}
+        = link_to 'Home', root_path, class: 'btn btn-large btn-info'
+        = yield :back
+
+      - Application.all.each do |application|
+        .dropdown{style:"display:inline-block;"}
+          %button.btn.btn-primary.dropdown-toggle{"data-toggle" => "dropdown", :type => "button"}
+            = application.name
+            %span.caret
+          %ul.dropdown-menu{style:"width: auto;"}
+            %li
+              = link_to application.name + '> Installations list', application_installations_path(application.id)
+            %li
+              = link_to application.name+ '> Changelogs', application_commits_path(application.id)
+            %li
+              = link_to application.name+ '> Changelogs Reports', application_changelog_reports_path(application.id)
+            %li
+              = link_to application.name+ '> Edit configuration', edit_application_path(application.id)
+
+
       = link_to 'Sign out', destroy_user_session_path, method: :delete, class: 'btn btn-large btn-info right'
       = link_to 'Settings', settings_path, class: 'btn btn-large btn-danger right'
       = yield :search

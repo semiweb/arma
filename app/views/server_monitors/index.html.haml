@@ -1,0 +1,54 @@
+-content_for :back do
+  = link_to 'Go back', application_installation_path(@installation.application,@installation),class: 'btn btn-large btn-danger'
+
+#installation
+  %p
+    = @installation.name
+    = @installation.env
+    = "#{@installation.location}" if @installation.location != 'undefined'
+
+.installation
+  .installation_infos.installation_box
+    .centered-title
+      .centered-title_label
+        = 'Server monitors status'
+    .installation_box-content
+      .installation_box-content-title
+        = 'Statistics 30 days'
+      = render 'installations/info', title:'Events : ', value: @server_monitors.select{|x| x.status != ServerMonitor::UP && x.time_start > Date.today - 30}.count
+      = render 'installations/info', title:'Downtime : ', value: "#{@server_monitors.map{|x| ((x.time_end.present? ? x.time_end : Time.now) - x.time_start).round if x.status != ServerMonitor::UP && x.time_start > Date.today - 30}.compact.inject(0, :+)/60} minutes"
+      .installation_box-content-title
+        = 'Statistics 60 days'
+      = render 'installations/info', title:'Events : ', value: @server_monitors.select{|x| x.status != ServerMonitor::UP && x.time_start > Date.today - 60}.count
+      = render 'installations/info', title:'Downtime : ', value: "#{@server_monitors.map{|x| ((x.time_end.present? ? x.time_end : Time.now) - x.time_start).round if x.status != ServerMonitor::UP && x.time_start > Date.today - 60}.compact.inject(0, :+)/60} minutes"
+      .installation_box-content-title
+        = 'Statistics 90 days'
+      = render 'installations/info', title:'Events : ', value: @server_monitors.select{|x| x.status != ServerMonitor::UP && x.time_start > Date.today - 90}.count
+      = render 'installations/info', title:'Downtime : ', value: "#{@server_monitors.map{|x| ((x.time_end.present? ? x.time_end : Time.now) - x.time_start).round if x.status != ServerMonitor::UP && x.time_start > Date.today - 90}.compact.inject(0, :+)/60} minutes"
+
+
+    .centered-title
+      .centered-title_label
+        = 'Server Status History'
+    %table
+      %thead
+        %tr
+          %th
+            = 'STATUS'
+          %th
+            = 'FROM'
+          %th
+            = 'TO'
+      %tbody
+      - max_take = params[:max].present? ? params[:max] : 50
+      - @server_monitors.take(max_take).each do |sv|
+        %tr{ class:sv.status }
+          %td
+            = sv.status.upcase
+          %td
+            = I18n.l sv.time_start, :format => :long
+          %td
+            = sv.time_end? ? I18n.l(sv.time_end, :format => :long) : 'CURRENT'
+
+
+:css

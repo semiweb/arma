@@ -1,0 +1,112 @@
+-content_for :back do
+  = link_to 'Return to list', application_commits_path ,class: 'btn btn-large btn-danger'
+#installation
+  %p
+    = @application.name
+.installation
+  .installation_infos.installation_box
+    .centered-title
+      .centered-title_label
+        = 'Commit information'
+    .installation_box-content
+      .installation_box-content-title
+        = render 'installations/info', title:'Application name : ', value:link_to(@application.name, application_path(@application))
+        - github_link = "https://github.com/semiweb/#{@application.github_repo}/commit/#{@commit.ref}"
+        = render 'installations/info', title:'Commit SHA : ', value:[link_to(@commit.ref, github_link, target: '_blank'), link_to(image_tag('external_link.png', class:'external_link', style:'float: none;'), github_link, target: "_blank"), image_tag('copy.png', class:'copy_link', data:{:clipboard_text=>"#{@commit.ref}",:clipboard_link=>true})]
+        = render 'installations/info', title:'Commit Date : ', value: @commit.commit_time.to_formatted_s(:long)
+        = render 'installations/info', title:'Commit Author : ', value: @commit.author
+        = render 'installations/info', title:'Commit Message : ', value: simple_format(@commit.full_commit_message)
+        - if @commit.downtime
+          %span{style:'font-size:2em;color:red'}
+            ="\u26A0"
+            %span{style:'color:red'} DOWNTIME IS NEEDED FOR THE INSTALLATION OF THIS COMMIT
+            %br
+    .installation_box-actions.display-table
+      .display-table-cell.valign--middle.text-align--center
+  .installation_notes.installation_box{ style:'height:auto;' }
+    .centered-title
+      .centered-title_label
+        = 'Changelog for this commit'
+    .installation_box-content#changelogs
+      = link_to 'New', application_commit_changelogs_path(@application.id,@commit.ref), class:'btn btn-info', method: :post
+      %br
+      %br
+      - if @commit.changelogs.count > 0
+        - categories = @application.categories
+        -@commit.changelogs.each do |change_log|
+          = form_for @commit, url:application_commit_changelog_path(@commit.application_id, @commit.ref, change_log.id), method: :patch, remote: true do
+            %p{id:change_log.id}
+              = hidden_field_tag 'changelog_id', change_log.id
+              = select_tag 'keyword', options_for_select(Changelog::KEYWORDS.map{|x| x.upcase},change_log.keyword.to_s.upcase), style: 'width: auto;', disabled: change_log.content.present?, :include_blank => true
+              = '@'
+              = select_tag 'affected', options_for_select(Changelog::AFFECTED.map{|x| x.upcase},change_log.affected.to_s.upcase), style: 'width: auto;', disabled: change_log.content.present?, :include_blank => true
+              = 'Categories :'
+              = select_tag 'categories', options_from_collection_for_select(categories,'id','name', selected: change_log.categories.pluck(:id)), disabled: change_log.content.present?, :include_blank => true
+              = link_to icon('edit', title: 'Edit'), "javascript:make_editable(#{change_log.id.to_s})", id: 'edit-'+change_log.id.to_s, style: ('display:none' unless change_log.content.present?)
+              = image_submit_tag('green_check.png', action_to: 'update', id: 'save-'+change_log.id.to_s, name: 'update', style: ('display:none' if change_log.content.present?))
+              = link_to image_tag('delete.png', title: 'Delete'), application_commit_changelog_path(@application.id,@commit.ref,change_log.id), :method => 'delete', remote: true
+              %span{id: "ignorebox-#{change_log.id.to_s}", style: ('display:none' if change_log.ignored) }
+                = link_to image_tag('eye_slash.png', title: 'Ignore'), application_commit_changelog_path(@application.id,@commit.ref,change_log.id, action_to: 'ignore'), :method => 'patch', remote: true
+              %span{ id: "unignorebox-#{change_log.id.to_s}", style: ('display:none' unless change_log.ignored) }
+                = link_to image_tag("eye.png", title: 'Un-ignore'), application_commit_changelog_path(@application.id,@commit.ref,change_log.id, action_to: 'unignore'), :method => 'patch', remote: true
+                %span{ style:'font-size:2em;color:orange'}
+                  = "\u26A0"
+                  %span{ style:'color:orange' } WILL BE IGNORED WHEN GENERATING REPORTS
+              = text_area_tag 'content' , change_log.content.to_s, style: 'width: 99%;', disabled: change_log.ignored, readonly: change_log.content.present?
+
+  .installation_history
+    .centered-title
+      .centered-title_label
+        = 'Installation Status'
+    %table.tablesorter
+      %thead
+        %tr
+          %th= 'NAME'
+          %th= 'ENV'
+          %th= 'PRECISION'
+          %th= 'INSTALLED?'
+          %th= 'RESTART DATE'
+          %th= 'BRANCH'
+          %th= 'COMMIT SHA'
+          %th= 'MESSAGE'
+          %th= 'COMMIT DATE'
+          %th= 'LOCAL DIFF/COMMITS'
+          %th{ :data => { :sorted=>'false'} }= 'VIEW/EDIT'
+          %th{ :data => { :sorted=>'false'} }= 'CHANGELOG'
+      %tbody
+        - @application.installations.each do |installation|
+          - state = installation.states.last
+          - uptodate = state.behind_by == 0 ? 'uptodate' : ''
+          %tr{ class: "installation #{cycle('odd', 'even')} #{uptodate} #{installation.env}"}
+            %td.name
+              - if installation.env == 'production' && installation.application.name == 'Nagano3'
+                = link_to(installation.name, "http://#{installation.name.downcase}.nagano.semiweb.ca", target: "_blank")
+                = link_to(image_tag('external_link.png', class:'external_link'), "http://#{installation.name.downcase}.nagano.semiweb.ca", target: '_blank')
+              - else
+                = installation.name
+            %td= installation.env
+            %td= installation.location == 'undefined' ? nil : installation.location
+            %td
+              - if @commit <= installation.states.last
+                %span{ style: 'color:green' }YES
+              - else
+                %span{ style: 'color:red' }NO
+            = render '/shared/state', state: state
+            %td{style: 'text-align:center;'}= link_to image_tag('edit.png', title: 'View/Edit'), application_installation_path(installation.application_id, installation)
+            %td{style: 'text-align:center;'}
+              = link_to(image_tag('book.png', title: 'Changelogs'), application_installation_changelogs_path(installation.application.id, installation.id))
+:javascript
+  $('textarea').autosize();
+
+  function make_editable(id){
+    $($('#'+id+' textarea')[0]).attr("readonly", false);
+    $('#'+id+' select').each(function() {
+      this.removeAttribute('disabled');
+    });
+    $('#edit-'+id).hide();
+    $('#save-'+id).show();
+  }
+
+
+:css
+

@@ -1,0 +1,25 @@
+%br
+- if cl.ignored
+  %span{style:"font-size:2em;color:orange"}
+    ="\u26A0"
+    %span{style:"color:orange"} WILL BE IGNORED WHEN GENERATING REPORTS
+
+- if !cl.commit.branch.include?("origin/master")
+  %span{style:"font-size:2em;color:red"}
+    ="\u26A0"
+    %span{style:"color:red"} IS NOT ON MASTER, MAY NOT BE AVAILABLE
+    %br
+
+- if cl.commit.downtime
+  %span{style:"font-size:2em;color:red"}
+    ="\u26A0"
+    %span{style:"color:red"} DOWNTIME IS NEEDED
+    %br
+
+
+-last_state_commit ||= nil
+-if last_state_commit.present?
+  - if !(cl.commit < last_state_commit) && last_state.branch != "master" && !cl.commit.branch.include?(last_state.branch)
+    %span{style:"font-size:2em;color:red"}
+      ="\u26A0"
+      %span{style:"color:red"} MAY NOT BE AVAILABLE, THIS INSTALLATION IS NOT ON MASTER

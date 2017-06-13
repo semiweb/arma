@@ -1,0 +1,42 @@
+#installation
+  %p
+    = @application.name
+.installation
+  .installation_infos.installation_box
+    .centered-title
+      .centered-title_label
+    .installation_box-content
+      %h2 Configuration
+      = form_for @application, url: application_path, :html => {:method => "patch", } do |f|
+        - list_dir = Rails.root.join('doc', 'applications_git').children.select { |c| c.directory? }
+        - list_repo = JSON.parse `curl  'https://api.github.com/users/semiweb/repos'`
+        -# Can't get private repo with git public API
+        - list_repo += ['name' => 'mobia']
+        - list_repo += ['name' => 'nagano']
+        - list_repo += ['name' => 'upsilon']
+        = render 'installations/info', title:'Github repo :', value:  select_tag(:github_repo, options_for_select(list_repo.collect {|r| [ r['name'], r['name'] ] }, selected: @application.github_repo), :include_blank => true)
+        = f.submit 'Save', class: 'btn btn-success'
+      %h2 Categories
+      = form_for @application, url: application_categories_path(@application), method: :POST do
+        = text_field_tag 'name'
+        = submit_tag 'Add new category', class: 'btn btn-primary'
+      %table{ style: 'width:auto;' }
+        %tr
+        - @application.categories.each do |c|
+          %tr{ id: c.id }
+            %td
+              %span.form-save{style:'display:none'}
+                = form_for c, url: application_category_path(@application.id,c.id), method: :PATCH, remote: true do
+                  = text_field_tag 'name', c.name
+                  = submit_tag 'save', class: 'btn btn-success'
+              %span.display-name
+                = c.name
+            %td
+              = link_to image_tag('edit.png', title:'Edit category name'), "javascript:make_editable(#{c.id.to_s})", class:'edit_button'
+              = link_to image_tag('delete.png', title: 'Delete this category'), application_category_path(@application,c.id), method: :delete, remote: true
+:javascript
+  function make_editable(id){
+    $('#'+id+' .form-save').show();
+    $('#'+id+' .display-name').hide();
+    $('#'+id+' .edit_button').hide();
+  }

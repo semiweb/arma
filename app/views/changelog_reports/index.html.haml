@@ -1,0 +1,24 @@
+#installation
+  %p
+    = "Changelogs report for #{@application.name}"
+.installation
+  .installation_history
+    %table
+      %thead
+        %tr
+          %th= 'NAME'
+          %th= 'CREATED AT'
+          %th= 'STATUS'
+          %th= 'ACTION'
+      %tbody
+        - @changelog_reports.each do |clr|
+          %tr
+            %td
+              = clr.name
+            %td
+              = I18n.l clr.created_at, :format => :short
+            %td
+              = clr.sent? ? "MARK AS SENT AT  #{I18n.l clr.sent, :format => :short} " : "WAITING"
+            %td
+              = link_to image_tag("edit.png", title: "Edit/View this changelog report"), edit_application_changelog_report_path(@application,clr)
+              = link_to image_tag("delete.png", title: "Delete this changelog report"), application_changelog_report_path(@application,clr), method: :DELETE, :confirm => 'Are you sure to delete this changelog report?'

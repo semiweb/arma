@@ -1,18 +1,20 @@
 %table.tablesorter
   %thead
     %tr
-      %th= 'NAME'
+      %th= 'MONITOR'
+      %th{style: "min-width: 60px;"}
+        = 'NAME'
       %th= 'ENV'
       %th= 'PRECISION'
       %th= 'RESTART DATE'
       %th= 'BRANCH'
-      %th= 'COMMIT SHA'
+      %th{style: "min-width: 90px;"}
+        = 'COMMIT SHA'
       %th= 'MESSAGE'
       %th= 'COMMIT DATE'
       %th= 'LOCAL DIFF/COMMITS'
       %th= 'BEHIND BRANCH BY'
-      %th{ :data => { :sorted=>"false"} }= 'VIEW/EDIT'
-      %th{ :data => { :sorted=>"false"} }= 'CHANGELOG'
+      %th{ :data => { :sorted=>"false"}, style: "min-width:80px;" }= ''
   %tbody
     - installations.each do |installation|
       - state = installation.states.last
@@ -25,6 +27,17 @@
       - lunr_data['lunr-name'] = installation.name
       - lunr_data['lunr-env'] = installation.env
       %tr{ class: "installation #{cycle('odd', 'even')} #{uptodate} #{installation.env}", data: lunr_data}
+        %td
+          - if installation.server_monitor?
+            - case installation.monitor_status
+              - when ServerMonitor::UP
+                = image_tag('green_light.png', title: "Server is  UP and running at #{installation.last_monitor_check}")
+              - when ServerMonitor::DOWN
+                = image_tag('red_light.png', title: 'Server is DOWN')
+              - when ServerMonitor::LOGIN_DOWN
+                = image_tag('orange_light.png', title: 'LOGIN is not working')
+              - when ServerMonitor::NEED_REFRESH
+                = image_tag('question.png', title: 'No data available, need verification')
         %td.name
           - if installation.env == 'production' && installation.application.name == 'Nagano3'
             = link_to(installation.name, "http://#{installation.name.downcase}.nagano.semiweb.ca", target: "_blank")
@@ -36,13 +49,17 @@
 
         = render '/shared/state', state: state
 
-        %td.behind_by= state.behind_by
-        %td{style: 'text-align:center;'}= link_to image_tag('edit.png'), application_installation_path(installation.application_id, installation)
-        %td{style: 'text-align:center;'}
-          = link_to(image_tag('book.png'), application_installation_code_changelogs_path(installation.application_id, installation))
-          %span.changelogs_count= installation.nb_changelogs_uncommitted
+        %td.behind_by= link_to state.behind_by, application_installation_changelogs_path(installation.application.id, installation.id)
+        %td{style: 'text-align:left;'}
+          = link_to image_tag('edit.png', title:'View/Edit'), application_installation_path(installation.application_id, installation)
+          = link_to(image_tag('book.png', title:'Changelogs'), application_installation_changelogs_path(installation.application.id, installation.id)) if installation.changelog
+
+          = link_to(image_tag('infos.png', title:"#{installation.notes}"), application_installation_path(installation.application_id, installation)) if installation.notes.present?
 
 
 :javascript
   App.reload_lunr();
   App.add_indexes_to_lunr();
+
+
+

@@ -12,11 +12,17 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui
 //= require jquery.minicolors
 //= require turbolinks
-//= require flat-ui
 //= require jquery.tablesorter
 //= require clipboard
 //= require augment.min
 //= require lunr.min
+//= require jquery.autosize
+//= require jquery.mjs.nestedSortable
+//= require flat-ui
 //= require_tree .
+
+
+

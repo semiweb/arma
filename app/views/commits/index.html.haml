@@ -1,0 +1,136 @@
+#installation
+  %p
+    = "Changelogs for #{@application.name}"
+.installation
+  .installation_infos.installation_box
+    .installation_box-content
+      .installation_box-content-title
+        = link_to 'Generate since last report', application_changelog_reports_path(@application.id, last_notif: true), class: 'btn btn-primary', method: :POST
+  .installation_history
+    %form{:method => 'post', :action =>  application_changelog_reports_path(@application.id)}
+      = hidden_field_tag :authenticity_token, form_authenticity_token
+      = button_tag 'Generate selected changelogs', class:'btn btn-danger', style: 'margin-left:15px;'
+      = check_box_tag 'toggle_ignore', id: 'ignore_toggle'
+      = 'Display ignored changelogs'
+      %span{style:'float:right; margin-right:20px;'}
+        = 'Search in table: '
+        = text_field_tag 'search_commit', '', id: 'search_commit', onkeyup: 'look_in_table()'
+      %table#commit_table
+        %thead
+          %tr
+            %th{ 'data-sorted'=> false }
+              = check_box_tag 'selectAll'
+            %th= 'NOTIFIED'
+            %th= 'TYPE'
+            %th= 'AFFECTED'
+            %th= 'CATEGORY'
+            %th= 'CHANGELOG MESSAGE'
+            %th= 'COMMIT ASSOC'
+        %tbody
+          - @changelogs.each do |cl|
+            %tr{ id: cl.id, class: "#{'changelog-ignored' if cl.ignored}  #{cycle('odd', 'even')}" }
+              %td
+                =check_box_tag('changelogs_ids[]', cl.id, checked = false, class: 'changelog_select', disabled: cl.ignored? )
+              %td
+                = cl.changelog_reports.count > 0 ?  "\u2714" : ''
+              %td
+                = cl.keyword
+              %td
+                = cl.affected
+              %td
+                %span.changelog_cat{ onclick:"make_editable(#{cl.id.to_s})", style:'display:block;' }
+                  = cl.categories.pluck(:name).join(', ')
+                %span.changelog_editable
+                  = select_tag('categories', options_from_collection_for_select(@application.categories,'id','name', selected: cl.categories.pluck(:id)), :include_blank => true)
+              %td
+                %span.changelog_content{ onclick:"make_editable(#{cl.id.to_s})", style:'display:block;' }
+                  = simple_format cl.content
+                %span.changelog_editable
+                  = text_area_tag 'content', cl.content
+                  = link_to 'Save', "javascript:save_content(#{@application.id.to_s},#{cl.commit.ref.to_s}, #{cl.id.to_s} )", class: 'btn btn-success'
+                  = link_to 'Cancel', "javascript:cancel_content(#{cl.id.to_s})", class: 'btn btn-warning'
+                = render 'shared/warning_changelogs', cl: cl
+              %td{style:'min-width: 100px;'}
+                = link_to cl.commit.ref[0..10], application_commit_path(params[:application_id], cl.commit.ref)
+
+:javascript
+
+  $('#selectAll').click(function() {
+    if(this.checked) {
+      // Iterate each checkbox
+      $(':checkbox.changelog_select').each(function() {
+        this.checked = true;
+      });
+    }
+    else {
+      $(':checkbox.changelog_select').each(function() {
+        this.checked = false;
+      });
+    }
+  });
+
+  function look_in_table() {
+    // Declare variables
+    var input, filter, table, tr, td, i, row_data;
+    input = document.getElementById("search_commit");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("commit_table");
+    tr = table.getElementsByTagName("tr");
+
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td");
+      row_data = Array.from(td).map(function(td) {
+        return td.innerHTML.toUpperCase();
+      });
+      if (td) {
+        if (row_data.join(" ").indexOf(filter) > -1 || i == 0) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+
+  function make_editable(id) {
+    $('#'+id+' .changelog_editable').show();
+    $('#'+id+' .changelog_content').hide();
+    $('#'+id+' .changelog_cat').hide();
+    $('#'+id+' textarea').autosize();
+  }
+
+  function cancel_content(cl){
+    $('#'+cl+' .changelog_editable').hide();
+    $('#'+cl+' .changelog_content').show();
+    $('#'+cl+' changelog_.cat').show();
+  }
+
+  function save_content(app,commit,cl){
+    content = $('#'+cl+' textarea')[0].value;
+    cat_selected = $('#'+cl+' option:selected').val();
+    $.ajax({
+            method: "PATCH",
+            url: "/applications/"+app+"/commits/"+commit+"/changelogs/"+cl+".json",
+            data: {application_id: app, commit_id: commit, id: cl, content: content, action_to:"update_from_index", categories:cat_selected},
+            success: function(result){
+                $('#'+cl+' .changelog_content')[0].innerHTML = result['changelog'].content
+                $('#'+cl+' .changelog_cat')[0].innerHTML = result['categories'].map(function(obj) { return obj.name}).join(",");
+                $('#'+cl+' .changelog_editable').hide();
+                $('#'+cl+' .changelog_content').show();
+                $('#'+cl+' .changelog_cat').show();
+
+                $('#alert_success').hide();
+                $('#alert_success .alert_message').html('Content sucesfully saved');
+                $('#alert_success').fadeIn(150).delay(4000).fadeOut(150);
+            }
+    });
+  }
+
+  $('#toggle_ignore').click(function() {
+    if(this.checked) {
+      $('tr.changelog-ignored').css({"display":"table-row"});
+    } else {
+      $('tr.changelog-ignored').css({"display":"none"});
+    }
+  });

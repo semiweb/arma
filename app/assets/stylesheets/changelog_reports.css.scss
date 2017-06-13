@@ -1,0 +1,57 @@
+.changelog-ignored{
+  display:none;
+}
+
+.header_item {
+  background-color:#3498DB !important;
+  color:white;
+}
+
+.header_item p {
+  text-align:center;
+  font-size:16px;
+}
+
+ol.sortable {
+  padding-left: 25px;
+  padding-right: 25px;
+  margin-top:50px;
+}
+
+ol.sortable, ol.sortable ol {
+  list-style-type: none;
+}
+
+.sortable li div {
+  border: 1px solid #d4d4d4;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  cursor: move;
+  border-color: #D4D4D4 #D4D4D4 #BCBCBC;
+  margin: 0;
+  padding: 3px;
+}
+
+li.mjs-nestedSortable-collapsed.mjs-nestedSortable-hovering div {
+  border-color: #999;
+}
+
+.sortable li.mjs-nestedSortable-collapsed > ol {
+  display: none;
+}
+
+.sortable li.mjs-nestedSortable-branch > div > .disclose {
+  display: inline-block;
+}
+
+.sortable span.ui-icon {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+
+.menuDiv .deleteMenu {
+  float: right;
+  cursor: pointer;
+}

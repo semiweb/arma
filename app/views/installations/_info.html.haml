@@ -6,6 +6,6 @@
     .installation_box-item-value
       - if value.is_a?(Array)
         - value.each do |val|
-          = val
+          != val
       - else
         = value

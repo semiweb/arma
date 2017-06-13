@@ -1,83 +1,129 @@
 -content_for :back do
   = link_to 'Go back', application_path(@installation.application),class: 'btn btn-large btn-danger'
-
-
 #installation
   %p
     = @installation.name
     = @installation.env
-    = "#{@installation.location}" if @installation.location != 'undefined'
-
+    = "#{ @installation.location }" if @installation.location != 'undefined'
 .installation
   .installation_infos.installation_box
     .centered-title
       .centered-title_label
-        ="Informations"
+        = 'Informations'
     .installation_box-content
       - state = @installation.states.last
-
       .installation_box-content-title
-        ="Server infos"
-
+        = 'Server infos'
       = render 'info', title:'Application : ', value:link_to(@installation.application.name, application_path(@installation.application))
-
       - if @installation.env == 'production' && @installation.application.name == 'Nagano3'
         = render 'info', title:'Name : ', value:link_to(@installation.name, "http://#{@installation.name.downcase}.nagano.semiweb.ca", target: "_blank")
-      -else
+      - else
         = render 'info', title:'Name : ', value:@installation.name
-
       = render 'info', title:'Environment : ', value:@installation.env
-
-      -#-if @installation.location != 'undefined'
       = render 'info', title:'Location : ', value:(@installation.location != 'undefined' ? @installation.location : '')
-
       = render 'info', title:'Restart date : ', value:"#{state.created_at.strftime("%B %d, %Y - %H:%M:%S")} (#{time_ago_in_words(state.created_at)} ago)"
-
       - branch_color = BranchWatcher.for_application(state.installation.application).for_branch_name(state.branch).first.try(:color)
       - if branch_color.present?
-        - branch_value = "<span style='color:#{branch_color}'>#{state.branch}</span>".html_safe
+        - branch_value = "<span style='color:#{ branch_color }'>#{ state.branch }</span>".html_safe
       - else
         - branch_value = state.branch
       = render 'info', title:'Current branch : ', value:branch_value
-      = render 'info', title:'Current ref : ', value:[link_to(state.ref, "https://github.com/semiweb/#{state.installation.application.name == 'Nagano3'?'nagano':'mobia'}/commit/#{state.ref}", target: "_blank"), image_tag('copy.png', class:'copy_link', data:{:clipboard_text=>"#{state.ref}",:clipboard_link=>true})]
-
+      - ref_content  = [link_to(state.ref, application_commit_path(state.installation.application, state.ref)), image_tag('copy.png', class:'copy_link', data:{:clipboard_text=>"#{state.ref}",:clipboard_link=>true})]
+      = render 'info', title:'Current ref : ', value: ref_content
+      - if @installation.server_monitor
+        - server_monitor_content = @server_monitors.map{ |x| ["<strong>#{x.status.upcase}</strong>",time_ago_in_words(x.time_start),' ago <br>'].join(' ') }
+        - server_monitor_content +=  [ link_to('See more', application_installation_server_monitors_path(@installation.application_id, @installation)) ]
+        = render 'info', title:'Server monitor history (last 5 states) : ', value: server_monitor_content
       .installation_box-content-title
         ="Commit infos"
-
-      = render 'info', title:'Commit date : ', value:"#{state.commit_date.strftime("%B %d, %Y - %H:%M:%S")} (#{time_ago_in_words(state.created_at)} ago)"
-      = render 'info', title:'Behind master by : ', value:pluralize(state.behind_by, "commit")
-      = render 'info', title:'Commit message : ', value:state.message
-
+      = render 'info', title:'Commit date : ', value: "#{ state.commit_date.strftime("%B %d, %Y - %H:%M:%S") } (#{time_ago_in_words(state.created_at) } ago)"
+      = render 'info', title:'Behind master by : ', value: pluralize(state.behind_by, 'commit')
+      = render 'info', title:'Commit message : ', value: state.message
       .installation_box-actions.display-table
-        .display-table-cell.valign--middle.text-align--center
-          =link_to application_installation_states_path(@installation.application_id, @installation), class:'installation_box-action' do
-            =image_tag('history.png')
+        .display-table-cell.valign--middle.text-align--center{ }
+          = link_to application_installation_states_path(@installation.application_id, @installation), class:'installation_box-action' do
+            = image_tag('history.png')
             .installation_box-action-title
-              ="History"
+              = 'Server Restart History'
+        -if @installation.changelog
+          .display-table-cell.valign--middle.text-align--center
+            = link_to application_installation_changelogs_path(@installation.application.id, @installation.id), class:'installation_box-action' do
+              = image_tag('book.png')
+              .installation_box-action-title
+                = 'View Changelogs'
         .display-table-cell.valign--middle.text-align--center
-          =link_to application_installation_code_changelogs_path(@installation.application_id, @installation), class:'installation_box-action' do
-            =image_tag('book.png')
+          = link_to application_installation_path(@installation.application_id, @installation), method: :delete, data: { confirm: 'Are you sure you want to delete this installation?'}, class:'installation_box-action' do
+            = image_tag('delete.png')
             .installation_box-action-title
-              ="Changelogs"
-        .display-table-cell.valign--middle.text-align--center
-          =link_to application_installation_path(@installation.application_id, @installation), method: :delete, data: { confirm: "Are you sure you want to delete this installation?"}, class:'installation_box-action' do
-            =image_tag('delete.png')
-            .installation_box-action-title
-              ="Delete"
+              = 'Delete Installation'
+        -if @installation.server_monitor
+          .display-table-cell.valign--middle.text-align--center
+            = link_to application_installation_server_monitors_path(@installation.application_id, @installation) do
+              = image_tag('heartbeat.png')
+              .installation_box-action-title
+                = 'Server monitor status'
 
   .installation_notes.installation_box
     .centered-title
       .centered-title_label
-        ="Notes on this installation"
+        = 'Notes on this installation'
     .installation_box-content
       =form_for @installation, url:application_installation_path(@installation.application_id, @installation) do |f|
-        =f.text_area :notes, class:'form_notes-textarea'
-        =f.submit "Update notes", class:'btn btn-danger'
+        =f.text_area :notes, class: 'form_notes-textarea', style: 'height: auto;'
+        =f.submit 'Update notes', class: 'btn btn-danger'
+    .centered-title
+      .centered-title_label
+        = 'Settings'
+    .installation_box-content
+      .installation_box-content-title
+        = 'Module status'
+      = render 'info', title:'Changelog : ', value: @installation.changelog ?  ['ON', link_to('Desactivate', application_installation_path(changelog: false), method: :PATCH)] : ['OFF', link_to('Activate', application_installation_path(changelog: true), method: :PATCH)]
+      - server_monitor_content = @installation.server_monitor ? ['ON', link_to('Desactivate', application_installation_path(server_monitor: false, last_monitor_check: nil), method: :PATCH)] : ['OFF', link_to('Activate', application_installation_path(server_monitor: true), method: :PATCH)]
+      = render 'info', title:'Server Status Monitor : ', value: server_monitor_content
+      - if @installation.server_monitor?
+        = render 'info', title:'Server Login Monitor : ', value: @installation.login_check ? ['ON', link_to('Desactivate', application_installation_path(login_check: false), method: :PATCH)] : ['OFF', link_to('Activate', application_installation_path(login_check: true), method: :PATCH)]
+
+      .installation_box-content-title
+        = 'System affected'
+      -Changelog::AFFECTED.each do |x|
+        = check_box_tag "affected_#{ x }", x, @installation.affected.include?(x), class: 'affected'
+        = label_tag "affected_#{ x }", x.upcase, style: 'display:inline;padding-right:15px;'
+
+      .installation_box-content-title
+        = 'Installation host'
+      = form_tag application_installation_path(@installation.application, @installation), method: :PATCH
+      = text_field_tag('host', @installation.host, style: 'width:50%')
+      = submit_tag('Save host', class:'btn btn-success')
 
   .installation_history
     .centered-title
       .centered-title_label
-        ="History"
+        = 'Server Restart History'
       .centered-title_label.text-align--right
-        =link_to "See all", application_installation_states_path(@installation.application_id, @installation), class: 'btn btn-primary'
+        =link_to 'See all', application_installation_states_path(@installation.application_id, @installation), class: 'btn btn-primary'
     = render 'states/list', states: @states
+
+:javascript
+
+  $('.form_notes-textarea').autosize();
+
+  $( ".affected" ).click(function() {
+    var inst = '#{@installation.id}'
+    var app = '#{@installation.application.id}'
+    var checked = [];
+    $.each($("input[class='affected']:checked"), function(){
+      checked.push($(this).val());
+    });
+
+    $.ajax({
+      method: "PATCH",
+      url: "#{application_installation_path(@installation.application.id, @installation.id)}",
+      data: {application_id: app, installation_id: inst,  affected_list:checked},
+      success: (function(res){
+        $('#alert_success').hide();
+        $('#alert_success .alert_message').html('Feature for this installation is saved');
+        $('#alert_success').fadeIn(150).delay(4000).fadeOut(150);
+      })
+    });
+  });
+
