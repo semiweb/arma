@@ -1,10 +1,10 @@
 class CreateChangelogReports < ActiveRecord::Migration
   def change
     create_table :changelog_reports do |t|
-      t.integer :installation_id, :null => true
-      t.integer :application_id
+      t.integer :installation_id, null: true
+      t.integer :application_id, null: true
       t.text :content
-      t.string :name
+      t.string :name, null: false
       t.timestamp :sent
       t.timestamps
     end

@@ -1,4 +1,3 @@
-ENV['RAILS_ENV'] = "development"
 # Use this file to easily define all of your cron jobs.
 #
 # It's helpful, but not entirely necessary to understand cron before proceeding.
@@ -20,8 +19,7 @@ ENV['RAILS_ENV'] = "development"
 
 # Learn more: http://github.com/javan/whenever
 
-
-every 1.minute do # Many shortcuts available: :hour, :day, :month, :year, :reboot
+every 1.minute do
   # ping all nagano prod servers
-  #rake "installation:pingall"
+  rake "installation:pingall"
 end

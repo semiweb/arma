@@ -9,8 +9,6 @@ if(<%= params["update.x"].present? || !params['update'].nil?  %>){
     $('#save-'+id).hide();
 }
 
-
-
 if(<%= params[:action_to] == 'ignore' %>){
     $($('#'+id+' textarea')[0]).attr("disabled", true);
     $('#'+id+' select').each(function() {
@@ -19,7 +17,6 @@ if(<%= params[:action_to] == 'ignore' %>){
     $('#ignorebox-'+id).hide();
     $('#unignorebox-'+id).show();
 }
-
 
 if(<%= params[:action_to] == 'unignore' %>){
     $($('#'+id+' textarea')[0]).attr("disabled", false);

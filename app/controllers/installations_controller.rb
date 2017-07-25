@@ -1,7 +1,6 @@
 class InstallationsController < ApplicationController
 
   before_action :set_installation, only: [:show,:update,:destroy]
-  layout 'application', :only => :index
 
   def index
     @application = Application.find(params[:application_id])
