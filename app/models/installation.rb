@@ -73,6 +73,7 @@ class Installation < ActiveRecord::Base
   def ping(host = nil, limit = 10)
     raise ArgumentError, 'too many HTTP redirects' if limit <= 0
     host = self.host+"/sessions/get_seconds_until_expiration" if host.nil?
+    host = 'http://'+host unless host.starts_with?('http')
     return ServerMonitor::NEED_REFRESH if host.empty?
     begin
       response = Net::HTTP.get_response(URI(host))

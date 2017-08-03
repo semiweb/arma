@@ -1,13 +1,14 @@
 class GitHelper
 #call this function to update commit database with new local git commits
   def self.parse_git_log(application_path,application_id, commit_SHA= '')
+    require 'changelogs_parser'
     last_commit  = Commit.all.order(:commit_time).last
     if commit_SHA.present?
       commits = `cd #{application_path} && git log -z --pretty="%H%n%ai%n%an%n%B" #{commit_SHA} -n 1`.split("\u0000")
     elsif last_commit.nil?
-      commits = `cd #{application_path} && git log -z --pretty="%H%n%ai%n%an%n%B"`.split("\u0000")
+      commits = `cd #{application_path} && git log origin -z --pretty="%H%n%ai%n%an%n%B"`.split("\u0000")
     else
-      commits = `cd #{application_path} && git log -z --pretty="%H%n%ai%n%an%n%B" #{last_commit.ref}..HEAD`.split("\u0000")
+      commits = `cd #{application_path} && git log  -z --pretty="%H%n%ai%n%an%n%B" #{last_commit.ref}..HEAD`.split("\u0000")
     end
 
     commits.each do |c|
@@ -17,6 +18,7 @@ class GitHelper
       (3..commit_array.size-1).each do |i|
         commit_message << commit_array[i].to_s << "\n"
       end
+
       p = ChangelogsParser.parse_commit(commit_message)
 
       if p.changelogs.present? || commit_SHA.present?

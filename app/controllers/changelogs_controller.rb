@@ -56,7 +56,7 @@ class ChangelogsController < ApplicationController
     respond_to do |format|
       format.json {
         ChangelogReport.find(params[:report_id]).update_attributes(content: params[:content])
-        render :json => 'succès'
+        render :json => 'succes'
       }
     end
   end
