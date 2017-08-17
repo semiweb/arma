@@ -33,7 +33,7 @@
               - when ServerMonitor::UP
                 = image_tag('green_light.png', title: "Server is  UP and running at #{installation.last_monitor_check}")
               - when ServerMonitor::DOWN
-                = image_tag('red_light.png', title: 'Server is DOWN')
+                = image_tag('red_light.png', title: "Server is DOWN at #{installation.last_monitor_check}")
               - when ServerMonitor::LOGIN_DOWN
                 = image_tag('orange_light.png', title: 'LOGIN is not working')
               - when ServerMonitor::NEED_REFRESH

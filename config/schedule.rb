@@ -19,7 +19,8 @@
 
 # Learn more: http://github.com/javan/whenever
 
-every 1.minute do
+set :output, '/home/semiweb/sites/arma/log/cron.log'
+every 2.minute do
   # ping all nagano prod servers
   rake "installation:pingall"
 end
