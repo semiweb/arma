@@ -79,21 +79,22 @@ class Installation < ActiveRecord::Base
     host = 'http://'+host unless host.starts_with?('http')
     return ServerMonitor::NEED_REFRESH if host.empty?
     begin
-      response = Net::HTTP.get_response(URI(host))
-      case response
-        when Net::HTTPSuccess then
-          response.uri.path = "/sessions"
-          if self.login_check && Net::HTTP.post_form(response.uri, 'username' => 'test', 'password' => 'test').code == "200"
-            return ServerMonitor::UP
+        url = URI.parse(host)
+        response = Timeout::timeout(5) {Net::HTTP.get_response(url)}
+       case response
+          when Net::HTTPSuccess then
+            response.uri.path = "/sessions"
+            if self.login_check && Net::HTTP.post_form(response.uri, 'username' => 'test', 'password' => 'test').code == "200"
+              return ServerMonitor::UP
+            else
+              return self.login_check ? ServerMonitor::LOGIN_DOWN : ServerMonitor::UP
+            end
+          when Net::HTTPRedirection then
+            location = response['location']
+            return self.ping(location, limit - 1)
           else
-            return self.login_check ? ServerMonitor::LOGIN_DOWN : ServerMonitor::UP
-          end
-        when Net::HTTPRedirection then
-          location = response['location']
-          return self.ping(location, limit - 1)
-        else
-          return ServerMonitor::DOWN #down status
-      end
+            return ServerMonitor::DOWN #down status
+       end
     rescue Exception
       return ServerMonitor::DOWN
     end
