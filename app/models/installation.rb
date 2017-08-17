@@ -20,7 +20,10 @@ class Installation < ActiveRecord::Base
           threads << Thread.new(install.states.last) { |s| s.check_git!(application.git_local_path) }
         end
       end
-      threads.each { |t| t.join }
+      threads.each do |t|
+        result = t.join(15)
+        t.kill if result.nil?
+      end
     end
   end
 
