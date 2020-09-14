@@ -7,7 +7,11 @@
   = link_to state.ref[0..9], application_commit_path(state.installation.application, state.ref)
   = image_tag('copy.png', class:'copy_link', data:{:clipboard_text=>"#{state.ref}",:clipboard_link=>true})
 %td= truncate state.message, length: 50, omission: '..'
-%td= state.commit_date.to_date
+%td
+  - if state.commit_date
+    = state.commit_date.to_date
+  - else
+    Couldn't get date
 %td
   - if state.diff.present?
     %span.warn
