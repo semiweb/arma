@@ -21,10 +21,10 @@ class State < ActiveRecord::Base
       self.commit_date = DateTime.now and return if Rails.env.test?
 
       if github_repo && !Rails.env.test?
-        headers = `curl -u "$ARMA_GITHUB_USERNAME:$ARMA_GITHUB_PASSWORD" -I https://api.github.com/repos/$ARMA_GITHUB_USERNAME/#{github_repo}/git/commits/#{ref}`
+        headers = `curl -H "Authorization: token $ARMA_GITHUB_ACCESS_TOKEN" -I https://api.github.com/repos/$ARMA_GITHUB_USERNAME/#{github_repo}/git/commits/#{ref}`
 
         if headers.include? 'Status: 200 OK'
-          self.commit_date = JSON.parse(`curl -u "$ARMA_GITHUB_USERNAME:$ARMA_GITHUB_PASSWORD" https://api.github.com/repos/$ARMA_GITHUB_USERNAME/#{github_repo}/git/commits/#{ref}`)['author']['date']
+          self.commit_date = JSON.parse(`curl -H "Authorization: token $ARMA_GITHUB_ACCESS_TOKEN" https://api.github.com/repos/$ARMA_GITHUB_USERNAME/#{github_repo}/git/commits/#{ref}`)['author']['date']
         end
       end
     end

@@ -11,8 +11,8 @@ Define the following environment variables:
 
 ```
 ARMA_AUTHORIZATION_KEY -> the authorization key sent with ZeCollector's requests
-ARMA_GITHUB_USERNAME   -> your Github username
-ARMA_GITHUB_PASSWORD   -> your Github password
+ARMA_GITHUB_USERNAME   -> Github username under which the repository is
+ARMA_GITHUB_ACCESS_TOKEN -> your Github personal access token
 ARMA_SECRET_KEY        -> the secret key used by rails in the initializers
 ```
 
