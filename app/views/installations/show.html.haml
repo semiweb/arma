@@ -36,7 +36,7 @@
         = render 'info', title:'Server monitor history (last 5 states) : ', value: server_monitor_content
       .installation_box-content-title
         ="Commit infos"
-      = render 'info', title:'Commit date : ', value: "#{ state.commit_date.strftime("%B %d, %Y - %H:%M:%S") } (#{time_ago_in_words(state.created_at) } ago)"
+      = render 'info', title:'Commit date : ', value: "#{ state.commit_date.try(:strftime, "%B %d, %Y - %H:%M:%S") || 'N/D' } (#{time_ago_in_words(state.created_at) } ago)"
       = render 'info', title:'Behind master by : ', value: pluralize(state.behind_by, 'commit')
       = render 'info', title:'Commit message : ', value: state.message
       .installation_box-actions.display-table
