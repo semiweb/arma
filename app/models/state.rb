@@ -19,13 +19,15 @@ class State < ActiveRecord::Base
 
     def set_commit_date!
       self.commit_date = DateTime.now and return if Rails.env.test?
+      return if github_repo.blank?
 
-      if github_repo && !Rails.env.test?
-        headers = `curl -H "Authorization: token $ARMA_GITHUB_ACCESS_TOKEN" -I https://api.github.com/repos/$ARMA_GITHUB_USERNAME/#{github_repo}/git/commits/#{ref}`
+      result = `curl -H "Authorization: token $ARMA_GITHUB_ACCESS_TOKEN" https://api.github.com/repos/$ARMA_GITHUB_USERNAME/#{github_repo}/git/commits/#{ref}`
 
-        if headers.include? 'Status: 200 OK'
-          self.commit_date = JSON.parse(`curl -H "Authorization: token $ARMA_GITHUB_ACCESS_TOKEN" https://api.github.com/repos/$ARMA_GITHUB_USERNAME/#{github_repo}/git/commits/#{ref}`)['author']['date']
-        end
+      return if result.blank?
+      json = JSON.parse(result) rescue return
+
+      if json.present? && json['author']
+        self.commit_date = json['author']['date']
       end
     end
 end
