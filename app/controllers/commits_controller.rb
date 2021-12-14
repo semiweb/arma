@@ -1,6 +1,7 @@
 class CommitsController < ApplicationController
   before_action :set_application, only: [:show,:update]
   before_action :set_commit, only: [:show,:update]
+  before_action :clear_commit_child_hash_before_action
 
   def show
     redirect_to root_path if @commit.nil?
@@ -37,4 +38,7 @@ class CommitsController < ApplicationController
     end
   end
 
+  def clear_commit_child_hash_before_action
+    Commit.invalidate_cache
+  end
 end
