@@ -9,7 +9,7 @@ class Commit < ActiveRecord::Base
   @@child_of = {}
   def <=>(another)
     return 0 if self.ref == another.ref
-    @@child_of[[self.ref, another.ref].sort] ||= begin
+    @@child_of[[self.ref, another.ref]] ||= begin
       system("git -C #{self.application.git_local_path} merge-base --is-ancestor #{self.ref} #{another.ref}") ? -1 : 1
     end
   end
